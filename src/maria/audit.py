@@ -24,10 +24,10 @@ from .render_bundle import RenderBundle, load_bundle
 
 log = logging.getLogger("maria.audit")
 
+# Rutas de respaldo, solo si el bundle no trae enlaces de footer. Se mantiene
+# corto para no golpear cada dominio con decenas de requests especulativos.
 COMMON_FOOTER_ROUTES = [
-    "/privacidad", "/politica-de-privacidad", "/privacy", "/privacy-policy",
-    "/es/politica-de-privacidad", "/cookies", "/politica-de-cookies", "/cookie-policy",
-    "/aviso-legal", "/legal", "/terminos", "/terms",
+    "/politica-de-privacidad", "/privacy-policy", "/cookie-policy", "/aviso-legal",
 ]
 WELL_KNOWN = ["/.well-known/ai-plugin.json", "/.well-known/mcp.json", "/.well-known/agent.json"]
 
@@ -121,12 +121,14 @@ def _probe_url(origin: str, path: str, cache_dir, no_cache) -> bool:
 def _resolve_footer(ctx: _base.ProbeContext, origin: str, cache_dir, no_cache) -> dict[str, int]:
     """URLs candidatas de política: enlaces del footer del bundle + rutas comunes."""
     candidates: list[str] = []
-    if ctx.render is not None:
+    if ctx.render is not None and ctx.render.footer_links:
         for fl in ctx.render.footer_links:
             if fl.href:
                 candidates.append(urljoin(origin + "/", fl.href))
-    for route in COMMON_FOOTER_ROUTES:
-        candidates.append(urljoin(origin + "/", route))
+    else:
+        # sin footer del bundle: probamos solo un puñado de rutas de respaldo
+        for route in COMMON_FOOTER_ROUTES:
+            candidates.append(urljoin(origin + "/", route))
 
     seen: dict[str, int] = {}
     for c in dict.fromkeys(candidates):
