@@ -1,0 +1,90 @@
+# Panel ES — Índice Jet MarIA
+# Panel de aviación ejecutiva del mercado español / europeo.
+# 15 cuentas, todas con sitio propio.
+# Grupos: A = operadores y brokers con base en España · B = extranjeros que
+# capturan demanda española · C = referencia del mercado.
+# `flujo` es una anotación del analista; sin clasificar firme -> "mixto".
+
+cuentas:
+  # --- Grupo A · operadores y brokers españoles ---
+  - codigo: ABK
+    nombre: Aerobroker
+    url: https://aerobroker.es
+    grupo: A
+    flujo: mixto
+  - codigo: GCH
+    nombre: Global Charters
+    url: https://global-charters.com
+    grupo: A
+    flujo: mixto
+  - codigo: CLJ
+    nombre: ClipperJet
+    url: https://clipperjet.eu
+    grupo: A
+    flujo: mixto
+  - codigo: INI
+    nombre: Initium Aviation
+    url: https://initium-aviation.com
+    grupo: A
+    flujo: mixto
+  - codigo: AUR
+    nombre: Áureo Jets
+    url: https://aureojets.com
+    grupo: A
+    flujo: mixto
+  - codigo: JFE
+    nombre: JustFly Executive
+    url: https://justflyexecutive.com
+    grupo: A
+    flujo: mixto
+  - codigo: IJE
+    nombre: iJet Aviation
+    url: https://ijet.es
+    grupo: A
+    flujo: mixto
+  - codigo: EEJ
+    nombre: Excellence Eurojets
+    url: https://excellenceeurojets.com
+    grupo: A
+    flujo: mixto
+  - codigo: ATX
+    nombre: Air TXT
+    url: https://airtxt.es
+    grupo: A
+    flujo: mixto
+  - codigo: ALB
+    nombre: AlbaJet
+    url: https://albajet.es
+    grupo: A
+    flujo: mixto
+
+  # --- Grupo B · extranjeros que capturan demanda española ---
+  - codigo: AEA
+    nombre: AeroAffaires
+    url: https://aeroaffaires.es
+    grupo: B
+    flujo: mixto
+  - codigo: LUN
+    nombre: LunaJets
+    url: https://lunajets.com/es/
+    grupo: B
+    flujo: turismo-vip
+  - codigo: FLP
+    nombre: Flapper
+    url: https://flyflapper.com/es-ES
+    grupo: B
+    flujo: mixto
+  - codigo: SMJ
+    nombre: Simply Jet
+    url: https://simply-jet.ch
+    grupo: B
+    flujo: mixto
+
+  # --- Grupo C · referencia del mercado ---
+  # Nota del analista: el apex https://gestair.com no presenta un certificado TLS
+  # válido; el sitio vivo es www. Se mide www y se registra el apex como hallazgo.
+  - codigo: GST
+    nombre: Gestair
+    url: https://www.gestair.com
+    grupo: C
+    flujo: corporativo-industrial
