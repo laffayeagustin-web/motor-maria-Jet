@@ -1,0 +1,8 @@
+{
+  "estado": "inaccesible",
+  "motivo": "certificado TLS invalido para este dominio",
+  "status": null,
+  "error": "fetch crudo: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch",
+  "user_agent": "MarIA-GEO-Audit/0.1 (+https://maria.ar/bot)",
+  "nota": "Fixture sintetico (T7): forma del registro de error propio, sin contenido de terceros. Modela avionesprivadossa.com.ar. D2.2 acceso = 0, hallazgo critico; D2.4 HTTPS = 0."
+}

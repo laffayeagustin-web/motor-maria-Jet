@@ -1,0 +1,1150 @@
+[
+  {
+    "url": "https://sundownjet.com",
+    "errors": [],
+    "anomalias": [
+      "ratio 1.003 > 1,0 — el HTML servido tiene mas texto que el DOM renderizado. Revisar extraccion o contenido que el JS elimina."
+    ],
+    "llms_txt": false,
+    "robots_txt_present": true,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": [],
+    "status": 200,
+    "final_url": "https://sundownjet.com",
+    "ttfb_ms": 1887,
+    "raw_words": 630,
+    "raw_jsonld": [
+      "BreadcrumbList",
+      "Organization",
+      "WebPage",
+      "WebSite"
+    ],
+    "raw_title": true,
+    "raw_h1": false,
+    "raw_meta_desc": false,
+    "raw_canonical": true,
+    "meta_robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    "rendered_words": 628,
+    "rendered_jsonld": [
+      "BreadcrumbList",
+      "Organization",
+      "WebPage",
+      "WebSite"
+    ],
+    "ratio_texto_util": 1.003,
+    "d3_puntos_ratio": 8,
+    "palabras_solo_con_js": 0,
+    "jsonld_solo_con_js": [],
+    "veredicto": "OK — el contenido esta en el HTML servido"
+  },
+  {
+    "url": "https://royalclass.com.ar",
+    "errors": [],
+    "anomalias": [
+      "ratio 1.024 > 1,0 — el HTML servido tiene mas texto que el DOM renderizado. Revisar extraccion o contenido que el JS elimina."
+    ],
+    "llms_txt": false,
+    "robots_txt_present": true,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": [],
+    "status": 200,
+    "final_url": "https://royalclass.com.ar",
+    "ttfb_ms": 2286,
+    "raw_words": 843,
+    "raw_jsonld": [],
+    "raw_title": true,
+    "raw_h1": true,
+    "raw_meta_desc": true,
+    "raw_canonical": true,
+    "meta_robots": "max-image-preview:large",
+    "rendered_words": 823,
+    "rendered_jsonld": [],
+    "ratio_texto_util": 1.024,
+    "d3_puntos_ratio": 8,
+    "palabras_solo_con_js": 0,
+    "jsonld_solo_con_js": [],
+    "veredicto": "OK — el contenido esta en el HTML servido"
+  },
+  {
+    "url": "https://modenaair.com",
+    "errors": [],
+    "anomalias": [
+      "ratio 1.061 > 1,0 — el HTML servido tiene mas texto que el DOM renderizado. Revisar extraccion o contenido que el JS elimina."
+    ],
+    "llms_txt": false,
+    "robots_txt_present": true,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": [],
+    "status": 200,
+    "final_url": "https://www.modenaair.com/",
+    "ttfb_ms": 2097,
+    "raw_words": 1612,
+    "raw_jsonld": [],
+    "raw_title": true,
+    "raw_h1": false,
+    "raw_meta_desc": false,
+    "raw_canonical": true,
+    "meta_robots": "max-image-preview:large",
+    "rendered_words": 1519,
+    "rendered_jsonld": [],
+    "ratio_texto_util": 1.061,
+    "d3_puntos_ratio": 8,
+    "palabras_solo_con_js": 0,
+    "jsonld_solo_con_js": [],
+    "veredicto": "OK — el contenido esta en el HTML servido"
+  },
+  {
+    "url": "https://argentina-fly.com",
+    "errors": [],
+    "anomalias": [],
+    "llms_txt": true,
+    "robots_txt_present": true,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "GPTBot",
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "ChatGPT-User",
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "ClaudeBot",
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "PerplexityBot",
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": "Google-Extended",
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": "Applebot-Extended",
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": [],
+    "status": 200,
+    "final_url": "https://argentina-fly.com/en/",
+    "ttfb_ms": 2188,
+    "raw_words": 1582,
+    "raw_jsonld": [
+      "LocalBusiness",
+      "WebSite"
+    ],
+    "raw_title": true,
+    "raw_h1": true,
+    "raw_meta_desc": true,
+    "raw_canonical": true,
+    "meta_robots": "index, follow",
+    "rendered_words": 1706,
+    "rendered_jsonld": [
+      "LocalBusiness",
+      "WebSite"
+    ],
+    "ratio_texto_util": 0.927,
+    "d3_puntos_ratio": 8,
+    "palabras_solo_con_js": 124,
+    "jsonld_solo_con_js": [],
+    "veredicto": "OK — el contenido esta en el HTML servido"
+  },
+  {
+    "url": "https://tenilaviacion.com.ar",
+    "errors": [
+      "fetch crudo: Exceeded maximum allowed redirects."
+    ],
+    "anomalias": [],
+    "llms_txt": false,
+    "robots_txt_present": false,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": []
+  },
+  {
+    "url": "https://bairesglobaljets.com",
+    "errors": [],
+    "anomalias": [],
+    "llms_txt": false,
+    "robots_txt_present": false,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": [],
+    "status": 200,
+    "final_url": "https://bairesglobaljets.com",
+    "ttfb_ms": 604,
+    "raw_words": 0,
+    "raw_jsonld": [
+      "FAQPage",
+      "TravelAgency"
+    ],
+    "raw_title": true,
+    "raw_h1": false,
+    "raw_meta_desc": true,
+    "raw_canonical": true,
+    "meta_robots": "index, follow",
+    "rendered_words": 649,
+    "rendered_jsonld": [
+      "FAQPage",
+      "TravelAgency"
+    ],
+    "ratio_texto_util": 0.0,
+    "d3_puntos_ratio": 0.0,
+    "palabras_solo_con_js": 649,
+    "jsonld_solo_con_js": [],
+    "veredicto": "CRITICO — la mayor parte del contenido es invisible para motores de IA"
+  },
+  {
+    "url": "https://avionesprivadossa.com.ar",
+    "errors": [
+      "fetch crudo: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: Hostname mismatch, certificate is not valid for 'avionesprivadossa.com.ar'. (_ssl.c:1032)"
+    ],
+    "anomalias": [],
+    "llms_txt": false,
+    "robots_txt_present": false,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": []
+  },
+  {
+    "url": "https://southjets.com",
+    "errors": [],
+    "anomalias": [],
+    "llms_txt": false,
+    "robots_txt_present": true,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": [],
+    "status": 200,
+    "final_url": "https://southjets.com/es/",
+    "ttfb_ms": 1316,
+    "raw_words": 1028,
+    "raw_jsonld": [
+      "Organization",
+      "SiteNavigationElement",
+      "WebSite"
+    ],
+    "raw_title": true,
+    "raw_h1": true,
+    "raw_meta_desc": true,
+    "raw_canonical": true,
+    "meta_robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+    "rendered_words": 2236,
+    "rendered_jsonld": [
+      "Organization",
+      "SiteNavigationElement",
+      "WebSite"
+    ],
+    "ratio_texto_util": 0.46,
+    "d3_puntos_ratio": 1.19,
+    "palabras_solo_con_js": 1208,
+    "jsonld_solo_con_js": [],
+    "veredicto": "ATENCION — porcion relevante del contenido depende de JS"
+  },
+  {
+    "url": "https://flyflapper.com/es-ES",
+    "errors": [],
+    "anomalias": [
+      "ratio 1.076 > 1,0 — el HTML servido tiene mas texto que el DOM renderizado. Revisar extraccion o contenido que el JS elimina."
+    ],
+    "llms_txt": true,
+    "robots_txt_present": true,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": [],
+    "status": 200,
+    "final_url": "https://flyflapper.com/es-ES",
+    "ttfb_ms": 2863,
+    "raw_words": 2284,
+    "raw_jsonld": [
+      "FAQPage",
+      "MobileApplication",
+      "Organization",
+      "WebSite"
+    ],
+    "raw_title": true,
+    "raw_h1": true,
+    "raw_meta_desc": true,
+    "raw_canonical": true,
+    "meta_robots": "index",
+    "rendered_words": 2122,
+    "rendered_jsonld": [
+      "FAQPage",
+      "MobileApplication",
+      "Organization",
+      "WebSite"
+    ],
+    "ratio_texto_util": 1.076,
+    "d3_puntos_ratio": 8,
+    "palabras_solo_con_js": 0,
+    "jsonld_solo_con_js": [],
+    "veredicto": "OK — el contenido esta en el HTML servido"
+  },
+  {
+    "url": "https://aircharterservice.com.ar",
+    "errors": [],
+    "anomalias": [
+      "ratio 1.009 > 1,0 — el HTML servido tiene mas texto que el DOM renderizado. Revisar extraccion o contenido que el JS elimina."
+    ],
+    "llms_txt": false,
+    "robots_txt_present": false,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": null,
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": [],
+    "status": 200,
+    "final_url": "https://www.aircharterservice.com.ar/",
+    "ttfb_ms": 1055,
+    "raw_words": 995,
+    "raw_jsonld": [],
+    "raw_title": true,
+    "raw_h1": true,
+    "raw_meta_desc": true,
+    "raw_canonical": true,
+    "meta_robots": null,
+    "rendered_words": 986,
+    "rendered_jsonld": [],
+    "ratio_texto_util": 1.009,
+    "d3_puntos_ratio": 8,
+    "palabras_solo_con_js": 0,
+    "jsonld_solo_con_js": [],
+    "veredicto": "OK — el contenido esta en el HTML servido"
+  },
+  {
+    "url": "https://lunajets.com/es/",
+    "errors": [],
+    "anomalias": [],
+    "llms_txt": false,
+    "robots_txt_present": true,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": "/",
+        "group": "*",
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": [],
+    "status": 200,
+    "final_url": "https://www.lunajets.com/es",
+    "ttfb_ms": 1591,
+    "raw_words": 1417,
+    "raw_jsonld": [
+      "LocalBusiness",
+      "Organization",
+      "VideoObject",
+      "WebPage",
+      "WebSite"
+    ],
+    "raw_title": true,
+    "raw_h1": true,
+    "raw_meta_desc": false,
+    "raw_canonical": false,
+    "meta_robots": "max-snippet:-1, max-video-preview:-1, max-image-preview:large",
+    "rendered_words": 1917,
+    "rendered_jsonld": [
+      "LocalBusiness",
+      "Organization",
+      "VideoObject",
+      "WebPage",
+      "WebSite"
+    ],
+    "ratio_texto_util": 0.739,
+    "d3_puntos_ratio": 6.78,
+    "palabras_solo_con_js": 500,
+    "jsonld_solo_con_js": [],
+    "veredicto": "ATENCION — porcion relevante del contenido depende de JS"
+  },
+  {
+    "url": "https://americanjet.com.ar",
+    "errors": [],
+    "anomalias": [],
+    "llms_txt": false,
+    "robots_txt_present": true,
+    "crawlers": {
+      "GPTBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "OpenAI - entrenamiento"
+      },
+      "OAI-SearchBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "OpenAI - indice de ChatGPT Search"
+      },
+      "ChatGPT-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "OpenAI - fetch en vivo por pedido del usuario"
+      },
+      "ClaudeBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Anthropic - entrenamiento"
+      },
+      "Claude-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Anthropic - fetch en vivo"
+      },
+      "PerplexityBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Perplexity - indice"
+      },
+      "Perplexity-User": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Perplexity - fetch en vivo"
+      },
+      "Google-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Google - permiso de Gemini/AI Overviews"
+      },
+      "CCBot": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Common Crawl - alimenta a casi todos"
+      },
+      "Bytespider": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "ByteDance/Doubao"
+      },
+      "Applebot-Extended": {
+        "allowed": true,
+        "rule": null,
+        "group": "*",
+        "quien": "Apple Intelligence"
+      }
+    },
+    "crawlers_bloqueados": [],
+    "status": 200,
+    "final_url": "https://americanjet.com.ar",
+    "ttfb_ms": 1155,
+    "raw_words": 451,
+    "raw_jsonld": [],
+    "raw_title": true,
+    "raw_h1": false,
+    "raw_meta_desc": true,
+    "raw_canonical": false,
+    "meta_robots": null,
+    "rendered_words": 451,
+    "rendered_jsonld": [],
+    "ratio_texto_util": 1.0,
+    "d3_puntos_ratio": 8,
+    "palabras_solo_con_js": 0,
+    "jsonld_solo_con_js": [],
+    "veredicto": "OK — el contenido esta en el HTML servido"
+  }
+]

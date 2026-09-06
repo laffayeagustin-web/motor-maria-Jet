@@ -1,0 +1,28 @@
+.venv/
+venv/
+out/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+build/
+dist/
+.DS_Store
+
+# fixtures: el HTML y el bundle de terceros NO se versionan; solo el MANIFEST
+tests/fixtures/**/raw.html
+tests/fixtures/**/rendered.html
+tests/fixtures/**/robots.txt
+tests/fixtures/**/render.json
+!tests/fixtures/**/MANIFEST.json
+!tests/fixtures/_sintetico/**
+
+# credenciales
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_rsa*
+credentials*.json
+service-account*.json

@@ -1,0 +1,8 @@
+{
+  "estado": "inaccesible",
+  "motivo": "bucle de redirecciones para un cliente que no es navegador",
+  "status": null,
+  "error": "fetch crudo: Exceeded maximum allowed redirects.",
+  "user_agent": "MarIA-GEO-Audit/0.1 (+https://maria.ar/bot)",
+  "nota": "Fixture sintetico (T7): forma del registro de error propio, sin contenido de terceros. Modela tenilaviacion.com.ar. D2.2 acceso = 0, hallazgo critico."
+}

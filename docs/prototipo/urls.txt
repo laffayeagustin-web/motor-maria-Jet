@@ -1,0 +1,21 @@
+# Panel AR — Indice Jet MarIA · fuente: PasoCero_Argentina_medicion_jets, hoja "Objetivos"
+# 12 URLs. Excluida Baires Fly (#6): SIN SITIO PROPIO ACTIVO -> "no aplica", no es un 0.
+# Argentina Jets (#14, Grupo A, Nucleo) no tiene web cargada en la hoja: falta el dato.
+
+# --- Grupo A · prospectos argentinos ---
+https://sundownjet.com
+https://royalclass.com.ar
+https://modenaair.com
+https://argentina-fly.com
+https://tenilaviacion.com.ar
+https://bairesglobaljets.com
+https://avionesprivadossa.com.ar
+
+# --- Grupo B · extranjeros que capturan demanda argentina ---
+https://southjets.com
+https://flyflapper.com/es-ES
+https://aircharterservice.com.ar
+https://lunajets.com/es/
+
+# --- Grupo C · referencia del mercado ---
+https://americanjet.com.ar

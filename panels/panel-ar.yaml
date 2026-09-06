@@ -1,0 +1,85 @@
+# Panel AR — Índice Jet MarIA
+# Fuente: PasoCero_Argentina_medicion_jets hoja "Objetivos" + códigos de
+# docs/decisiones/2026-09-01-scoring-panel.md.
+# 14 cuentas: 12 con sitio + 2 no_aplica.
+# El campo `flujo` (corporativo-industrial / turismo-vip / sanitario / mixto) es
+# una anotación del analista; hoy sin clasificar firme -> "mixto".
+
+cuentas:
+  # --- Grupo A · prospectos argentinos ---
+  - codigo: SUN
+    nombre: Sundown Jet
+    url: https://sundownjet.com
+    grupo: A
+    flujo: mixto
+  - codigo: ROY
+    nombre: Royal Class
+    url: https://royalclass.com.ar
+    grupo: A
+    flujo: mixto
+  - codigo: MOD
+    nombre: Modena Air Service
+    url: https://modenaair.com
+    grupo: A
+    flujo: mixto
+  - codigo: AFL
+    nombre: Argentina Fly
+    url: https://argentina-fly.com
+    grupo: A
+    flujo: mixto
+  - codigo: TEN
+    nombre: Tenil Aviación
+    url: https://tenilaviacion.com.ar
+    grupo: A
+    flujo: mixto
+  - codigo: BGJ
+    nombre: Baires Global Jets
+    url: https://bairesglobaljets.com
+    grupo: A
+    flujo: mixto
+  - codigo: AVP
+    nombre: Aviones Privados SA
+    url: https://avionesprivadossa.com.ar
+    grupo: A
+    flujo: mixto
+  - codigo: BFL
+    nombre: Baires Fly
+    url: null
+    grupo: A
+    flujo: mixto
+    no_aplica_motivo: sin sitio propio activo (DNS no resuelve)
+  - codigo: ARJ
+    nombre: Argentina Jets
+    url: null
+    grupo: A
+    flujo: mixto
+    no_aplica_motivo: sin web cargada en la hoja Objetivos (dato faltante en origen)
+
+  # --- Grupo B · extranjeros que capturan demanda argentina ---
+  - codigo: SAJ
+    nombre: South American Jets
+    url: https://southjets.com
+    grupo: B
+    flujo: turismo-vip
+  - codigo: FLP
+    nombre: Flapper
+    url: https://flyflapper.com/es-ES
+    grupo: B
+    flujo: mixto
+  - codigo: ACS
+    nombre: Air Charter Service AR
+    url: https://aircharterservice.com.ar
+    grupo: B
+    flujo: corporativo-industrial
+  - codigo: LUN
+    nombre: LunaJets
+    url: https://lunajets.com/es/
+    grupo: B
+    flujo: turismo-vip
+
+  # --- Grupo C · referencia del mercado ---
+  - codigo: AMJ
+    nombre: American Jet
+    url: https://americanjet.com.ar
+    grupo: C
+    flujo: mixto
