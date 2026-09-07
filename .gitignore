@@ -26,3 +26,6 @@ tests/fixtures/**/render.json
 id_rsa*
 credentials*.json
 service-account*.json
+
+# sonda de Fase 0: respuestas de terceros, no se versionan
+out/fase0/
