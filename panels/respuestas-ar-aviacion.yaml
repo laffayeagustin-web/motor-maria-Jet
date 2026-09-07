@@ -1,0 +1,139 @@
+# Panel de Respuestas — aviación privada AR
+#
+# Índice de Visibilidad en Respuestas de IA. NO es el panel del Índice GEO
+# Técnico (`panel-ar.yaml`): son listas distintas y se mantienen por separado
+# (rúbrica 2026-09-06-rubrica-respuestas.md §6).
+#
+# Sembrado el 2026-09-07 con `maria-respuestas proponer --industria "aviación
+# privada" --empresa "American Jet" --dominio americanjet.com.ar --pais AR
+# --idioma es`. Las 10 frases salen de ese paso y quedan CONGELADAS: si cambian,
+# la serie deja de ser comparable.
+#
+# Marcas = unión de:
+#   - las 14 cuentas de `panel-ar.yaml` (con sus códigos), se midan o no —
+#     la ausencia es el dato;
+#   - los dominios que la sonda citó de hecho y que no estaban en esa lista
+#     (Paramount Business Jets, Lets Fly Argentina, Aereax, Flyzar).
+#
+# Cobertura de la sonda: 10/10 frases dispararon búsqueda. Máximo Argentina Fly
+# ~50 (Marginal). Dominio más citado fuera del panel: paramountbusinessjets.com
+# (4 frases).
+#
+# Trampas de matching (rúbrica §5) — vigiladas:
+#   - AVP "Aviones Privados SA": NO se le da el alias "Aviones Privados", que es
+#     el término genérico en español y colisionaría en casi toda respuesta
+#     (mismo caso que "Air TXT" / "air taxi" en el panel ES).
+#   - ARJ "Argentina Jets" y AFL "Argentina Fly": nombres genéricos; el match
+#     exige la secuencia literal con límites de palabra. Revisar tras la corrida
+#     N=3 y agregar `excluir` si aparecen falsos positivos.
+#   - AMJ "American Jet" / ROY "Royal Class": revisar contra usos genéricos en
+#     inglés / de clase de cabina.
+
+industria: "aviación privada"
+superficie: gemini
+modelo: gemini-2.5-flash
+
+mercado:
+  pais: AR
+  idioma: es
+
+empresa_auditada: AMJ
+
+marcas:
+  # --- del panel técnico AR (panel-ar.yaml) ---
+  - codigo: AMJ
+    nombre: American Jet
+    dominios: [americanjet.com.ar]
+  - codigo: SUN
+    nombre: Sundown Jet
+    dominios: [sundownjet.com]
+    alias: ["SundownJet"]
+  - codigo: ROY
+    nombre: Royal Class
+    dominios: [royalclass.com.ar]
+  - codigo: MOD
+    nombre: Modena Air Service
+    dominios: [modenaair.com]
+    alias: ["Modena Air"]
+  - codigo: AFL
+    nombre: Argentina Fly
+    dominios: [argentina-fly.com]
+  - codigo: TEN
+    nombre: Tenil Aviación
+    dominios: [tenilaviacion.com.ar]
+    alias: ["Tenil"]
+  - codigo: BGJ
+    nombre: Baires Global Jets
+    dominios: [bairesglobaljets.com]
+  - codigo: AVP
+    nombre: Aviones Privados SA
+    dominios: [avionesprivadossa.com.ar]
+  - codigo: BFL
+    nombre: Baires Fly
+    dominios: []
+  - codigo: ARJ
+    nombre: Argentina Jets
+    dominios: []
+  - codigo: SAJ
+    nombre: South American Jets
+    dominios: [southjets.com]
+    alias: ["SouthJets", "South Jets"]
+  - codigo: FLP
+    nombre: Flapper
+    dominios: [flyflapper.com]
+  - codigo: ACS
+    nombre: Air Charter Service
+    dominios: [aircharterservice.com.ar, aircharterservice.com, aircharterservice.cl, aircharterservice.es]
+    alias: ["Air Charter Service"]
+  - codigo: LUN
+    nombre: LunaJets
+    dominios: [lunajets.com]
+    alias: ["Luna Jets"]
+
+  # --- descubiertas por la sonda: las citó Google, no estaban en panel-ar ---
+  - codigo: PBJ
+    nombre: Paramount Business Jets
+    dominios: [paramountbusinessjets.com]
+  - codigo: LFA
+    nombre: Lets Fly Argentina
+    dominios: [letsflyargentina.com]
+    alias: ["Let's Fly Argentina", "LetsFly Argentina"]
+  - codigo: AEX
+    nombre: Aereax
+    dominios: [aereax.com.ar]
+  - codigo: FZR
+    nombre: Flyzar
+    dominios: [flyzar.com]
+    alias: ["Fly Zar"]
+
+frases:
+  - id: G1
+    tipo: general
+    texto: "Vuelo privado Argentina"
+  - id: G2
+    tipo: general
+    texto: "Alquiler jet privado"
+  - id: G3
+    tipo: general
+    texto: "Avión ejecutivo"
+  - id: G4
+    tipo: general
+    texto: "Chárter aéreo Argentina"
+  - id: G5
+    tipo: general
+    texto: "Vuelos corporativos"
+  - id: L1
+    tipo: long-tail
+    texto: "Cuánto cuesta alquilar un jet privado para 4 personas de Buenos Aires a Bariloche"
+  - id: L2
+    tipo: long-tail
+    texto: "Requisitos para contratar un vuelo chárter internacional desde Argentina"
+  - id: L3
+    tipo: long-tail
+    texto: "Empresas de aviación ejecutiva con base en Buenos Aires para viajes de negocios"
+  - id: L4
+    tipo: long-tail
+    texto: "Precio por hora de vuelo en avión privado para 6 pasajeros en Argentina"
+  - id: L5
+    tipo: long-tail
+    texto: "Cómo reservar un vuelo privado de última hora para un viaje de emergencia en Argentina"
