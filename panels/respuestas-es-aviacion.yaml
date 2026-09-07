@@ -1,0 +1,141 @@
+# Panel de Respuestas — aviación ejecutiva ES
+#
+# Índice de Visibilidad en Respuestas de IA. NO es el panel del Índice GEO
+# Técnico (`panel-es.yaml`): son listas distintas y se mantienen por separado
+# (rúbrica 2026-09-06-rubrica-respuestas.md §6).
+#
+# Las marcas salen de la evidencia, no de una lista previa: a las 15 del panel
+# técnico se suman los dominios que Google citó de hecho en la sonda de Fase 0.
+# Los 6 del panel técnico que no aparecieron se dejan igual — su ausencia es el
+# dato.
+#
+# Las 10 frases son el borrador de la sonda del 2026-09-06. Se reemplazan por la
+# salida del paso `proponer` cuando exista (Fase 5).
+
+industria: "aviación ejecutiva"
+superficie: gemini
+modelo: gemini-2.5-flash
+
+mercado:
+  pais: ES
+  idioma: es
+
+empresa_auditada: GST
+
+marcas:
+  # --- del panel técnico, vistas en la sonda ---
+  - codigo: GST
+    nombre: Gestair
+    dominios: [gestair.com]
+    alias: ["Gestair Business Aviation"]
+  - codigo: LUN
+    nombre: LunaJets
+    dominios: [lunajets.com]
+    alias: ["Luna Jets"]
+  - codigo: FLP
+    nombre: Flapper
+    dominios: [flyflapper.com]
+  - codigo: AEA
+    nombre: AeroAffaires
+    dominios: [aeroaffaires.es, aeroaffaires.com]
+    alias: ["Aero Affaires"]
+  - codigo: ALB
+    nombre: AlbaJet
+    dominios: [albajet.es]
+    alias: ["Alba Jet"]
+  - codigo: CLJ
+    nombre: ClipperJet
+    dominios: [clipperjet.eu]
+    alias: ["Clipper Jet"]
+  - codigo: INI
+    nombre: Initium Aviation
+    dominios: [initium-aviation.com]
+  - codigo: ABK
+    nombre: Aerobroker
+    dominios: [aerobroker.es]
+  - codigo: SMJ
+    nombre: Simply Jet
+    dominios: [simply-jet.ch]
+    alias: ["SimplyJet"]
+
+  # --- del panel técnico, ausentes en la sonda: se miden igual ---
+  - codigo: GCH
+    nombre: Global Charters
+    dominios: [global-charters.com]
+  - codigo: ATX
+    nombre: Air TXT
+    dominios: [airtxt.es]
+    alias: ["AirTXT"]
+  - codigo: AUR
+    nombre: Áureo Jets
+    dominios: [aureojets.com]
+    alias: ["Aureo Jets"]
+  - codigo: EEJ
+    nombre: Excellence Eurojets
+    dominios: [excellenceeurojets.com]
+    alias: ["Excellence Eurojet"]
+  - codigo: IJE
+    nombre: iJet Aviation
+    dominios: [ijet.es]
+  - codigo: JFE
+    nombre: JustFly Executive
+    dominios: [justflyexecutive.com]
+    alias: ["Just Fly Executive"]
+
+  # --- descubiertas por la sonda: las citó Google, no estaban en el panel ---
+  - codigo: EUR
+    nombre: Europair
+    dominios: [europair.com]
+  - codigo: ACS
+    nombre: Air Charter Service
+    dominios: [aircharterservice.es, aircharterservice.com]
+  - codigo: ELG
+    nombre: ELG Aviation
+    dominios: [elgaviation.com]
+  - codigo: UNA
+    nombre: United Aviation
+    dominios: [unitedaviation.es]
+  - codigo: JAP
+    nombre: JetApp
+    dominios: [jetapp.es]
+  - codigo: NTJ
+    nombre: NetJets
+    dominios: [netjets.com]
+  # Compañía británica, distinta de Global Charters (GCH). Entra como marca
+  # propia justamente para que las dos no puedan confundirse: fue el dominio más
+  # citado fuera del panel en la sonda.
+  - codigo: GCB
+    nombre: Global Charter
+    dominios: [globalcharter.com]
+
+frases:
+  - id: G1
+    tipo: general
+    texto: "alquiler de jet privado"
+  - id: G2
+    tipo: general
+    texto: "mejores empresas de aviación privada en España"
+  - id: G3
+    tipo: general
+    texto: "vuelos privados chárter en España"
+  - id: G4
+    tipo: general
+    texto: "cómo alquilar un avión privado"
+  - id: G5
+    tipo: general
+    texto: "operadores de aviación ejecutiva en España"
+  - id: L1
+    tipo: long-tail
+    texto: "cuánto cuesta alquilar un jet privado de Madrid a Ibiza"
+  - id: L2
+    tipo: long-tail
+    texto: "qué documentación necesito para volar en jet privado dentro de la UE"
+  - id: L3
+    tipo: long-tail
+    texto: "diferencia entre un broker y un operador de aviación privada"
+  - id: L4
+    tipo: long-tail
+    texto: "alquilar un avión privado para 8 pasajeros desde Barcelona"
+  - id: L5
+    tipo: long-tail
+    texto: "vuelo privado urgente a Palma de Mallorca precio"
