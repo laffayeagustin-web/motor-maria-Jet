@@ -48,6 +48,14 @@ def puntos_posicion(pos_rel: float) -> float:
     return round(PTS_POSICION * (1.0 - pos_rel), 2)
 
 
+def agrupar_por_frase(capturas: list[Captura]) -> "dict[str, list[Captura]]":
+    """Agrupa repeticiones de la misma frase preservando el orden de aparición."""
+    grupos: dict[str, list[Captura]] = {}
+    for cap in capturas:
+        grupos.setdefault(cap.frase_id, []).append(cap)
+    return grupos
+
+
 def puntuar_marca(
     marca: Marca,
     capturas: list[Captura],
@@ -56,61 +64,96 @@ def puntuar_marca(
     modelo: str = "gemini-2.5-flash",
     timestamp_utc: str | None = None,
 ) -> MarcaRun:
-    """Puntúa una marca contra todas las capturas de una corrida."""
+    """Puntúa una marca contra las capturas de una corrida.
+
+    Varias capturas con el mismo `frase_id` son **repeticiones** de esa frase y se
+    agregan por frecuencia: una marca nombrada en 2 de 3 repeticiones puntúa dos
+    tercios de R1. Con una sola repetición el resultado es el binario de siempre.
+
+    La agregación existe porque medir una vez no alcanza: entre dos corridas de
+    las mismas 10 frases solo reaparece el 60 % de las fuentes citadas
+    (enmienda §7 de la rúbrica).
+    """
     r1 = SenalResult(id="R1", nombre=SENALES[0][1])
     r2 = SenalResult(id="R2", nombre=SENALES[1][1])
     r3 = SenalResult(id="R3", nombre=SENALES[2][1])
 
+    grupos = agrupar_por_frase(capturas)
     con_busqueda = 0
-    for cap in capturas:
-        cuenta = cap.cuenta_para_el_denominador
-        if cuenta:
-            con_busqueda += 1
+
+    for frase_id, reps in grupos.items():
+        utiles = [c for c in reps if c.cuenta_para_el_denominador]
 
         # Una frase que no cuenta entra igual al informe, con puntos_max 0: se ve
         # que fue evaluada y por qué no puntuó.
-        if not cuenta:
-            motivo = [Evidencia(metodo="regla", detalle=cap.motivo or cap.estado)]
+        if not utiles:
+            primera = reps[0]
+            motivo = [Evidencia(metodo="regla", detalle=primera.motivo or primera.estado)]
             for señal in (r1, r2, r3):
                 señal.por_frase.append(
-                    SubSenal(frase_id=cap.frase_id, puntos=0.0, puntos_max=0.0,
-                             estado=cap.estado, evidencia=motivo)
+                    SubSenal(frase_id=frase_id, puntos=0.0, puntos_max=0.0,
+                             estado=primera.estado, evidencia=motivo)
                 )
             continue
 
-        variante, offset = buscar_mencion(cap.texto, marca)
-        citas = buscar_citas(cap.fuentes, marca)
+        con_busqueda += 1
+        n = len(utiles)
+        menciones = 0
+        citadas = 0
+        dominios: set[str] = set()
+        pos_pts: list[float] = []
+        variantes: set[str] = set()
 
-        # --- R1 · mención ---
-        ev1 = [Evidencia(
-            metodo="respuesta",
-            detalle=(f"nombrada como {variante!r}" if variante else "no nombrada"),
-        )]
+        for cap in utiles:
+            variante, offset = buscar_mencion(cap.texto, marca)
+            citas = buscar_citas(cap.fuentes, marca)
+            if variante:
+                menciones += 1
+                variantes.add(variante)
+                pos_pts.append(puntos_posicion(posicion_relativa(cap.texto, offset or 0)))
+            else:
+                pos_pts.append(0.0)
+            if citas:
+                citadas += 1
+                dominios.update(citas)
+
+        frac_m = menciones / n
+        frac_c = citadas / n
+        sufijo = f" ({menciones}/{n} repeticiones)" if n > 1 else ""
+
         r1.por_frase.append(SubSenal(
-            frase_id=cap.frase_id, puntos=PTS_MENCION if variante else 0.0,
-            puntos_max=PTS_MENCION, estado=cap.estado, evidencia=ev1,
+            frase_id=frase_id, puntos=round(PTS_MENCION * frac_m, 2),
+            puntos_max=PTS_MENCION, estado="con_busqueda",
+            evidencia=[Evidencia(
+                metodo="respuesta",
+                detalle=(f"nombrada como {', '.join(sorted(variantes))}{sufijo}"
+                         if menciones else f"no nombrada{sufijo}"),
+            )],
         ))
 
-        # --- R2 · cita ---
-        ev2 = [Evidencia(
-            metodo="fuente",
-            detalle=("citada: " + ", ".join(citas) if citas else "sin cita de dominio propio"),
-        )]
         r2.por_frase.append(SubSenal(
-            frase_id=cap.frase_id, puntos=PTS_CITA if citas else 0.0,
-            puntos_max=PTS_CITA, estado=cap.estado, evidencia=ev2,
+            frase_id=frase_id, puntos=round(PTS_CITA * frac_c, 2),
+            puntos_max=PTS_CITA, estado="con_busqueda",
+            evidencia=[Evidencia(
+                metodo="fuente",
+                detalle=(f"citada: {', '.join(sorted(dominios))}"
+                         f"{f' ({citadas}/{n} repeticiones)' if n > 1 else ''}"
+                         if citadas else
+                         f"sin cita de dominio propio"
+                         f"{f' (0/{n} repeticiones)' if n > 1 else ''}"),
+            )],
         ))
 
-        # --- R3 · posición ---
-        if variante and offset is not None:
-            pos = posicion_relativa(cap.texto, offset)
-            pts = puntos_posicion(pos)
-            det = f"primera mención al {pos:.1%} del texto"
-        else:
-            pts, det = 0.0, "sin mención que ubicar"
+        media_pos = sum(pos_pts) / n
         r3.por_frase.append(SubSenal(
-            frase_id=cap.frase_id, puntos=pts, puntos_max=PTS_POSICION,
-            estado=cap.estado, evidencia=[Evidencia(metodo="respuesta", detalle=det)],
+            frase_id=frase_id, puntos=round(media_pos, 2),
+            puntos_max=PTS_POSICION, estado="con_busqueda",
+            evidencia=[Evidencia(
+                metodo="respuesta",
+                detalle=(f"posición media de la primera mención sobre {n} "
+                         f"repeticion{'es' if n > 1 else ''}"
+                         if menciones else "sin mención que ubicar"),
+            )],
         ))
 
     run = MarcaRun(
@@ -120,7 +163,7 @@ def puntuar_marca(
         estado="medida" if con_busqueda else "sin_cobertura",
         dimensiones=[r1, r2, r3],
         frases_con_busqueda=con_busqueda,
-        frases_totales=len(capturas),
+        frases_totales=len(grupos),
     )
     if timestamp_utc:
         run.timestamp_utc = timestamp_utc

@@ -149,17 +149,64 @@ Cinco pasadas de la misma frase (`"operadores de aviación ejecutiva en España"
 lo que no se puntúa: la prosa (272–367 palabras) y la cola de fuentes (solo 4 de 9
 dominios aparecieron en las 5).
 
-Eso hace creíble una serie diaria. Pero la muestra es **una frase y dos marcas
-fuertes**: una marca al margen puede parpadear. Por lo tanto se congela igual:
-
-- Se publica **media móvil de 7 días** junto al valor del día.
-- **No se interpreta el delta de una sola corrida** — el informe no puede atribuir
-  un movimiento de un día a una causa.
-- La varianza se vuelve a medir cuando cambie el modelo (hoy `gemini-2.5-flash`).
+> ⚠ **Esta decisión quedó corta y está enmendada abajo (§7 bis).** La muestra era
+> una sola frase, y resultó ser de las más estables del panel. Medido sobre las 10
+> frases, el cuadro es otro.
 
 **El modelo y su versión son parte de la definición de la métrica**, igual que
 `networkidle` lo es de D3 en el índice técnico: la serie solo es comparable
 mientras no cambien. Un cambio de modelo se registra como corte de serie.
+
+## 7 bis · Enmienda — una sola medición diaria no alcanza
+
+Corrida completa del panel contra la sonda, **mismas 10 frases, mismo modelo,
+`temperature: 0`, ~4 horas de diferencia**:
+
+| marca | sonda | 4 h después | Δ |
+|---|---:|---:|---:|
+| AeroAffaires | 39,4 | 12,0 | **−27,4** |
+| LunaJets | 56,2 | 35,1 | **−21,1** |
+| JetApp | 17,8 | 4,0 | −13,8 |
+| United Aviation | 18,7 | 9,2 | −9,5 |
+| Flapper | 39,7 | 31,2 | −8,5 |
+| Gestair | 28,9 | 28,5 | −0,5 |
+| ClipperJet | 8,8 | 8,8 | 0,0 |
+
+**Desvío absoluto medio 5,1 puntos; máximo 27,4.** Dos marcas cambiaron de
+visibles a invisibles y viceversa.
+
+La causa está medida: **de las 85 fuentes citadas en la sonda, solo 51
+reaparecieron — el 60 %.** Por señal, el desvío medio fue R1 2,00 · R2 2,55 ·
+R3 0,60 (máximos 12, 12 y 3,4). Es decir: el ruido entra sobre todo por qué
+fuentes decide traer el modelo, y golpea más fuerte a las marcas con más puntos,
+que tienen más citas que perder.
+
+Con ese nivel de ruido, **un valor diario de una sola consulta no es una medición,
+es una muestra**. Se enmienda:
+
+> **Cada frase se consulta N veces por corrida (N = 3 por defecto) y las
+> repeticiones se agregan por frecuencia.** Una marca nombrada en 2 de 3
+> repeticiones puntúa ⅔ de R1; citada en 3 de 3 puntúa R2 entera; R3 es la media
+> de la posición sobre las N repeticiones, contando 0 las que no la nombran.
+
+Esto convierte tres señales binarias ruidosas en tres señales graduadas, y de paso
+mide algo que antes se perdía: **la consistencia**. Aparecer en 3 de 3
+repeticiones no es lo mismo que aparecer en 1 de 3, y el cliente necesita saber la
+diferencia.
+
+Costo: la corrida pasa de ~30 a ~90 búsquedas facturables por día. Sigue siendo
+despreciable.
+
+Se mantienen, ahora como refuerzo y no como única defensa:
+
+- **media móvil de 7 días** publicada junto al valor del día;
+- **no se interpreta el delta de una sola corrida** — el informe no puede
+  atribuir un movimiento de un día a una causa;
+- la varianza se vuelve a medir cuando cambie el modelo.
+
+**Límite que el informe debe respetar:** con N = 3, un movimiento menor a ~5
+puntos entre días consecutivos está dentro del ruido medido y **no se comenta**.
+Ese umbral se recalcula cuando haya una semana de serie real.
 
 ---
 

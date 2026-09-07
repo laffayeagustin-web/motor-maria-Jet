@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pedir un informe · Índice de Visibilidad en Respuestas de IA · marIA.ar</title>
+<meta name="description" content="Elegí tu industria y tu empresa: la herramienta propone tus competidores y 10 frases, y devuelve una corrida de medición en respuestas de Gemini con búsqueda.">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --g-blue:#4285F4; --g-dark:#202124; --g-gray:#F8F9FA; --white:#fff;
+    --gradient-primary:linear-gradient(135deg,#4285F4 0%,#1A73E8 100%);
+    --border:#E8EAED;
+  }
+  *,*::before,*::after{box-sizing:border-box}
+  body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    background:linear-gradient(180deg,#fff 0%,var(--g-gray) 100%);
+    color:var(--g-dark);margin:0;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--g-blue)}
+  code{font-size:.9em;background:rgba(0,0,0,.04);padding:1px 5px;border-radius:5px}
+  .wrap{max-width:620px;margin:0 auto;padding:0 16px}
+  .topbar{border-bottom:1px solid rgba(232,234,237,.6);background:rgba(255,255,255,.9)}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-weight:800;font-size:1.4rem;letter-spacing:-.5px;color:var(--g-dark);text-decoration:none}
+  .brand span{color:var(--g-blue)}
+  .topbar .back{font-size:.85rem;font-weight:600;text-decoration:none}
+  h1{font-size:1.9rem;font-weight:800;letter-spacing:-1px;margin:28px 0 12px}
+  p.lead{color:#5F6368;font-size:1.02rem;margin:0 0 8px}
+  .card{background:var(--white);border:1px solid var(--border);border-radius:18px;
+    padding:24px;box-shadow:0 8px 24px rgba(0,0,0,.05);margin:24px 0}
+  label{display:block;font-weight:600;font-size:.9rem;margin:16px 0 6px}
+  input,select{width:100%;font:inherit;padding:11px 13px;border:1px solid var(--border);
+    border-radius:10px;background:var(--white);color:var(--g-dark)}
+  input:focus,select:focus{outline:2px solid var(--g-blue);outline-offset:1px;border-color:transparent}
+  .hint{font-size:.8rem;color:#9AA0A6;margin:4px 0 0}
+  button{margin-top:22px;width:100%;font:inherit;font-weight:700;color:#fff;
+    background:var(--gradient-primary);border:0;border-radius:999px;padding:13px;cursor:pointer}
+  button[disabled]{opacity:.6;cursor:progress}
+  .steps{list-style:none;padding:0;margin:18px 0;font-size:.9rem;color:#5F6368}
+  .steps li{padding:6px 0 6px 26px;position:relative}
+  .steps li::before{content:"→";position:absolute;left:0;color:var(--g-blue);font-weight:700}
+  .disclaimer{background:#FFF8E1;border-left:6px solid #FBBC05;padding:14px 18px;
+    border-radius:0 12px 12px 0;color:#614C00;font-size:.88rem;margin:20px 0}
+  .msg{border-radius:12px;padding:14px 16px;font-size:.92rem;margin:16px 0;display:none}
+  .msg.ok{background:#E6F4EA;color:#137333;display:block}
+  .msg.err{background:#FCE8E6;color:#C5221F;display:block}
+  footer{padding:30px 0 60px;color:#9AA0A6;font-size:.82rem}
+</style>
+</head>
+<body>
+<div class="topbar"><div class="wrap">
+  <a class="brand" href="https://maria.ar">mar<span>IA</span>.ar</a>
+  <a class="back" href="/indice-respuestas-ia/">&larr; volver al índice</a>
+</div></div>
+
+<div class="wrap">
+  <h1>¿Aparece tu empresa cuando le preguntan a una IA?</h1>
+  <p class="lead">Medimos menciones y citas de tu marca en las <strong>respuestas de Gemini con búsqueda de Google</strong>, para 10 frases de tu industria.</p>
+
+  <ol class="steps">
+    <li>Elegís tu industria y cargás tu empresa y tu dominio.</li>
+    <li>Confirmás tu email con un clic (para eso te mandamos un enlace).</li>
+    <li>La herramienta corre 10 frases, arma la lista de competidores con los sitios que Google cita de hecho, y te devuelve una corrida de medición.</li>
+    <li>Si querés seguimiento diario, lo activamos a mano después de revisar el panel con vos.</li>
+  </ol>
+
+  <div class="disclaimer">
+    Esto mide <strong>una</strong> superficie: las respuestas de Gemini con búsqueda. No es una medición de ChatGPT, Perplexity, Copilot ni de los AI Overviews de Google.
+  </div>
+
+  <div class="card">
+    <div id="msg" class="msg"></div>
+    <form id="f" method="post" action="enviar.php">
+      <label for="industria">Industria</label>
+      <select id="industria" name="industria" required>
+        <option value="">Elegí una…</option>
+        <option value="aviación ejecutiva">Aviación ejecutiva / alquiler de jets</option>
+      </select>
+      <p class="hint">En esta versión piloto está habilitada solo la aviación ejecutiva.</p>
+
+      <label for="empresa">Empresa</label>
+      <input id="empresa" name="empresa" type="text" required maxlength="120" placeholder="Nombre comercial de tu empresa">
+
+      <label for="dominio">Dominio</label>
+      <input id="dominio" name="dominio" type="text" required maxlength="120" placeholder="tuempresa.com">
+      <p class="hint">Solo el dominio, sin <code>https://</code>.</p>
+
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required maxlength="160" placeholder="vos@tuempresa.com">
+      <p class="hint">Te mandamos ahí el enlace de confirmación y, después, el informe.</p>
+
+      <button id="btn" type="submit">Pedir el informe</button>
+    </form>
+  </div>
+
+  <footer>
+    Motor <code>Jet MarIA</code> · el pedido entra a una cola y se procesa a mano. Tus datos se usan solo para generar y enviarte este informe.
+  </footer>
+</div>
+
+<script>
+(function(){
+  var f = document.getElementById('f'), btn = document.getElementById('btn'),
+      msg = document.getElementById('msg');
+  f.addEventListener('submit', function(ev){
+    ev.preventDefault();
+    msg.className = 'msg'; msg.textContent = '';
+    btn.disabled = true; btn.textContent = 'Enviando…';
+    fetch('enviar.php', {method:'POST', body:new FormData(f), headers:{'Accept':'application/json'}})
+      .then(function(r){ return r.json().then(function(j){ return {ok:r.ok, j:j}; }); })
+      .then(function(res){
+        if (res.ok && res.j.ok) {
+          msg.className = 'msg ok';
+          msg.textContent = res.j.mensaje || 'Listo. Revisá tu email y confirmá el pedido con el enlace que te mandamos.';
+          f.reset();
+        } else {
+          msg.className = 'msg err';
+          msg.textContent = (res.j && res.j.error) || 'No pudimos registrar el pedido. Probá de nuevo en un rato.';
+        }
+      })
+      .catch(function(){
+        msg.className = 'msg err';
+        msg.textContent = 'Error de red. Probá de nuevo.';
+      })
+      .finally(function(){ btn.disabled = false; btn.textContent = 'Pedir el informe'; });
+  });
+})();
+</script>
+</body>
+</html>
