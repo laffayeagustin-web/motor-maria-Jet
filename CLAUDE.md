@@ -28,6 +28,15 @@ Entry points en `pyproject.toml [project.scripts]`: `maria = maria.cli:app`,
 `addopts = -m 'not render and not network'` — la suite base nunca toca red ni
 Chromium.
 
+## Artefactos SDD
+
+`constitution.md` (principios) · `spec.md` (RF-01…RF-21 + RR-01…RR-27 en EARS) ·
+`AGENTS.md` (contexto permanente) · `docs/plan.md` (plan + rúbrica + tareas) ·
+`docs/decisiones/` (decisiones de rúbrica congeladas) ·
+`.claude/skills/auditoria-geo/SKILL.md` (procedimiento de auditoría). Requisito
+nuevo → se actualiza `spec.md` y se muestra el diff **antes** de tocar código.
+Decisiones que cruzan repos: `~/DECISIONES.md`.
+
 ## Reglas del proyecto (de `constitution.md` — leerla entera antes de tocar scoring)
 
 - **Evidencia o silencio:** ningún puntaje sin URL + timestamp UTC + método.

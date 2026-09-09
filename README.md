@@ -8,9 +8,18 @@ Motor de auditoría GEO para el panel de aviación ejecutiva (Argentina), partid
 | **`maria`** | servidor (cPanel/CloudLinux) | fetch estático, `robots.txt`, Content Signals, scoring determinista, salida JSON/Markdown/tabla. **No abre navegador.** |
 | **`maria-render`** | notebook | renderiza el DOM con Chromium y extrae todo lo que necesita un navegador (JSON-LD renderizado, ratio de texto, formularios, precio en pantalla, `navigator.modelContext`, enlaces del footer). Escribe un *render bundle*. |
 
-El plan completo está en [`docs/plan.md`](docs/plan.md); la rúbrica congelada y las
-decisiones, en [`docs/decisiones/`](docs/decisiones/); la constitución del proyecto
-en [`constitution.md`](constitution.md).
+Artefactos de Spec-Driven Development:
+
+| Archivo | Qué |
+|---|---|
+| [`constitution.md`](constitution.md) | los 10 principios verificables |
+| [`spec.md`](spec.md) | RF-01…RF-21 (índice técnico) + RR-01…RR-27 (índice de respuestas), en EARS |
+| [`AGENTS.md`](AGENTS.md) | contexto permanente: qué es MarIA, cliente ideal, flujo operativo, lecciones ya pagadas |
+| [`docs/plan.md`](docs/plan.md) | plan técnico, rúbrica operativa, desglose de tareas |
+| [`docs/decisiones/`](docs/decisiones/) | decisiones de rúbrica congeladas, con fecha |
+| [`.claude/skills/auditoria-geo/SKILL.md`](.claude/skills/auditoria-geo/SKILL.md) | procedimiento de auditoría de una cuenta |
+
+Decisiones que cruzan varios repos del ecosistema: [`~/DECISIONES.md`](../DECISIONES.md).
 
 ## Instalación
 

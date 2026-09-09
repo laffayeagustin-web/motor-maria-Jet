@@ -29,26 +29,21 @@ El batch de 14 mete concurrencia en el MVP. Se acepta porque el entregable comer
 
 ## 0.b Contexto — hacia dónde va esto (no forma parte de este plan)
 
-Se documenta acá para que las decisiones técnicas del ciclo 1 no cierren puertas, **no para construirlo ahora**. No está especificado, no está estimado y no tiene tareas.
+El modelo de agencia por niveles (herramientas internas → portal por cliente →
+empleados digitales) y las dos advertencias para cuando se retome (el portal no va
+primero; un Triage sobre webs de terceros necesita dos corridas antes de crear una
+tarea) **se movieron a [`~/docs/producto.md`](../../docs/producto.md)** — son
+contexto de negocio del ecosistema, no de este plan.
 
-El modelo de referencia es una agencia que construyó su infraestructura por niveles en vez de comprar SaaS: primero herramientas internas a medida, después un portal individual y seguro por cliente, y finalmente empleados digitales autónomos (un agente de triage matutino que analiza a todos los clientes y deja tareas asignadas al equipo; un agente que toma briefs, elige productos, diseña banners y deja borradores de email listos).
-
-| Nivel | Equivalente en MarIA Jets | Estado |
-|---|---|---|
-| **1–2** · Herramientas internas | Motor del Índice | **Este plan** |
-| **3** · Portal | Ficha del operador: Índice en vivo, histórico, hallazgos abiertos | Solo descripción |
-| **5** · Empleados digitales | Agente Triage (regresiones de puntaje → tareas) + Agente Outbound (secuencia ABM desde los hallazgos técnicos) | Solo descripción |
-
-Cada nivel consumiría los datos que produce el anterior; por eso el ciclo 1 es el único que puede hacerse primero. Dos advertencias registradas para cuando se retomen:
-
-- El modelo de referencia construyó el portal sobre una cartera que ya existía. Acá hay 13 prospectos y cero cuentas cerradas: replicar el orden literal produce un portal vacío. Si se retoma, el nivel 3 debería ser la **ficha pública del Índice** (lead-magnet y pretexto de contacto) antes que el portal privado con login.
-- Los empleados digitales de la referencia operan sobre datos propios; los de MarIA operarían sobre webs de terceros. Un Triage puede leer como "regresión" un deploy a medias o un WAF que cambió de humor. Regla a fijar de entrada: dos corridas consecutivas antes de convertir una regresión en tarea, y nada sale del equipo sin revisión.
+Lo único que importa acá: las decisiones técnicas del ciclo 1 no deben cerrar
+puertas a que un consumidor externo (portal, agente) lea el JSON del motor. El
+principio 8 (el JSON es la fuente) ya lo garantiza.
 
 ---
 
 ## 1. Constitución del proyecto
 
-Diez principios cortos y verificables. **Viven acá, en §1 de este plan** —no hay todavía un `constitution.md` separado en `jet-maria/`. Si el ciclo SDD decide extraerlos a su propio archivo (ver estructura de §4 y §6), este documento se actualiza en ese momento; hasta entonces, toda cita a "la constitución" o a `constitution.md` en este plan se refiere a esta sección.
+Diez principios cortos y verificables. **Ya extraídos a [`constitution.md`](../constitution.md)** en la raíz del repo — esa es la versión vigente (con los ajustes de la arquitectura de dos herramientas). La lista de abajo es la original de la rev. 4 y se conserva como registro histórico; ante cualquier diferencia, manda `constitution.md`.
 
 1. **Evidencia o silencio.** Ningún puntaje se emite sin al menos un ítem de evidencia con URL, timestamp UTC y método de obtención (`static` | `rendered` | `robots` | `manual`).
 2. **Nada del `<head>` sin renderizado real.** `title`, `meta description`, `canonical` y `JSON-LD` se leen del HTML crudo y del DOM renderizado por Playwright; si difieren, se reportan **ambos**. (Regla nacida del error de Fase 2.)
@@ -156,7 +151,7 @@ El sub-criterio de compromiso publicado es el que conecta el Índice con el Paso
 
 ## 3. Requisitos funcionales (extracto en EARS)
 
-La spec completa se genera en la sesión CLI mediante la entrevista del paso 2 del flujo SDD. Estos son los RF de anclaje que ya podemos fijar:
+**La spec completa vive en [`spec.md`](../spec.md)** (raíz del repo): RF-01…RF-21 de la Parte A y RR-01…RR-27 de la Parte B, en EARS, con sus criterios de finalización. Lo que sigue son los RF de anclaje de la Parte A, que se mantienen acá como contexto del plan; la versión vigente y completa es `spec.md`.
 
 **Estados de una cuenta en una corrida** — enum del contrato JSON (RF-15):
 
@@ -207,11 +202,13 @@ La spec completa se genera en la sesión CLI mediante la entrevista del paso 2 d
 ### Estructura del repositorio
 
 ```
-jet-maria/
-├── constitution.md              # los 10 principios
-├── AGENTS.md                    # contexto permanente del agente
-├── spec.md  clarify.md  plan.md  tasks.md   # artefactos SDD del ciclo
-├── .claude/skills/auditoria-geo/SKILL.md    # metodología propia, versionada
+jet-maria-motor/
+├── constitution.md              # los 10 principios (extraído ✓)
+├── AGENTS.md                    # contexto permanente del agente (extraído ✓)
+├── spec.md                      # RF-01…RF-21 + RR-01…RR-27 en EARS (extraído ✓)
+├── docs/plan.md                 # este documento
+├── docs/decisiones/             # decisiones de rúbrica congeladas
+├── .claude/skills/auditoria-geo/SKILL.md    # metodología propia, versionada (extraído ✓)
 ├── panels/panel-ar.yaml         # las 14 cuentas del Paso Cero / panel AR
 ├── tools/remote-chromium-server/            # Chromium remoto (notebook), ver §9.3
 ├── src/maria/
@@ -291,13 +288,15 @@ Cada una < 30 min, ordenadas por dependencia, con criterio de cierre verificable
 
 ## 6. El agente y la metodología propia
 
-Tres archivos versionados en el repo, que son el activo de consultoría reutilizable:
+Tres archivos versionados en el repo, que son el activo de consultoría reutilizable.
+**Los tres están creados** (2026-09-09); esta sección describe qué debe contener cada
+uno y sigue siendo la referencia de su alcance.
 
-**`constitution.md`** — los 10 principios de §1.
+**[`constitution.md`](../constitution.md)** — los 10 principios de §1.
 
 **`AGENTS.md`** — contexto permanente: qué es MarIA, quién es el cliente ideal (C-levels, asistentes ejecutivos, family offices, directores de operaciones), la clasificación obligatoria por flujo operativo, la regla de argumentos/contraargumentos, y las tres lecciones ya pagadas del proyecto: (a) no confiar en fetch de solo-HTML para el `<head>`, (b) bloqueo de crawler ≠ ausencia de schema, (c) "cotizador" que no cotiza es un hallazgo de fricción, no de nomenclatura.
 
-**`.claude/skills/auditoria-geo/SKILL.md`** — el procedimiento de auditoría de una cuenta: orden de comprobaciones, herramientas por tipo de dato, formato de la ficha, y el checklist de verificación cruzada. Es lo que hace que la auditoría número 40 salga igual que la número 1, la haga quien la haga.
+**[`.claude/skills/auditoria-geo/SKILL.md`](../.claude/skills/auditoria-geo/SKILL.md)** — el procedimiento de auditoría de una cuenta: orden de comprobaciones, herramientas por tipo de dato, formato de la ficha, y el checklist de verificación cruzada. Es lo que hace que la auditoría número 40 salga igual que la número 1, la haga quien la haga.
 
 Estos tres archivos son el entregable más duradero del ciclo: el código puede reescribirse, el criterio versionado no.
 
