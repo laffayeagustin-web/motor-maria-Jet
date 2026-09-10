@@ -131,5 +131,5 @@ objetivos distintas.
 | `src/maria_answers/report.py` | Ídem para la tabla de Respuestas. |
 | `tools/build_pages.py` | Se saca todo `<span class="tier">`, la columna «Tier», la leyenda y la palabra «tiers» del texto de Metodología — en las dos familias de página. |
 | `~/DECISIONES.md` §7 | Entrada nueva (decisión que cruza motor + páginas LIVE + nota de re-sync al funnel). |
-| Producción | Rebuild de las 4 páginas + copia a `public_html/` + `wp litespeed-purge all`. Paso aparte, con OK explícito (footgun 3 de `~/CLAUDE.md`). |
+| Producción | **Hecho el 10-09-2026.** `tools/build_pages.py` regeneró las 4 páginas en `public_html/indice-*` (ya venían sin tier de una corrida previa; único cambio: la fecha) + purga de LiteSpeed por URL (`wp litespeed-purge url` — `… purge all` da 400 en este hosting). |
 | `~/indice-de-posicionamiento-en-la-IA/VENDOR.md` | Nota: el próximo re-sync trae `scoring/tiers.py` y `report/panel_table.py` cambiados; el funnel no llama a `cuartiles_panel` y su `pages.py` es propio, así que el efecto es nulo — pero queda anotado.
