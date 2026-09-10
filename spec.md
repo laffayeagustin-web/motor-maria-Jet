@@ -41,15 +41,18 @@ entre ambos: `render_schema_version`.
   registra el fallo como evidencia, continúa con el HTML crudo y marca `unverified`
   todo sub-criterio que dependa del render. SI no hay endpoint de render disponible,
   la corrida degrada igual, no se rompe.
-- **RF-03** — SI el servidor responde 403 o 503 al user-agent propio identificado,
-  ENTONCES la cuenta se marca `bloqueado`, D2-acceso puntúa 0 y se emite hallazgo
-  crítico. SI el recurso no se puede obtener (TLS inválido, bucle de redirects, DNS),
-  la cuenta se marca `inaccesible` con `motivo` y el efecto es el mismo. EL SISTEMA
-  **no** envía un user-agent de crawler de terceros para provocar esta respuesta
-  (constitución, principio 6).
+- **RF-03** — SI el servidor responde 403 o 503 al request propio **completo e
+  identificado** (UA propio + `Accept`/`Accept-Language`, RF-04), ENTONCES la cuenta
+  se marca `bloqueado`, D2-acceso puntúa 0 y se emite hallazgo crítico. SI el recurso
+  no se puede obtener (TLS inválido, bucle de redirects, DNS), la cuenta se marca
+  `inaccesible` con `motivo` y el efecto es el mismo. EL SISTEMA **no** envía un
+  user-agent de crawler de terceros para provocar esta respuesta (constitución,
+  principio 6).
 - **RF-04** — EL SISTEMA identifica siempre su user-agent
-  (`MarIA-GEO-Audit/x.y (+https://maria.ar/bot)`) y nunca ejecuta más de una
-  petición concurrente contra el mismo dominio.
+  (`MarIA-GEO-Audit/x.y (+https://maria.ar/bot)`), envía headers de request estándar
+  (`Accept`, `Accept-Language` — negociación de contenido correcta, no evasión;
+  enmienda 10-09-2026, `docs/decisiones/2026-09-10-headers-de-request.md`) y nunca
+  ejecuta más de una petición concurrente contra el mismo dominio.
 - **RF-05** — MIENTRAS exista una respuesta cacheada de menos de 24 h para una URL,
   EL SISTEMA la reutiliza, salvo `--no-cache` explícito.
 

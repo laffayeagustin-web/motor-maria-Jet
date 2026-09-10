@@ -28,11 +28,17 @@ ajustes que trae la arquitectura de dos herramientas (`maria` en el servidor,
    Ninguno de los dos entra en el CI base.
 
 6. **Rastreo cortés y sin suplantación.** User-agent identificable
-   (`MarIA-GEO-Audit/x.y (+https://maria.ar/bot)`), máximo 1 request concurrente
-   por dominio, respeto del `Crawl-delay`, sin autenticación ni evasión de
-   anti-bot. No se suplanta el crawler de un tercero: la política declarada para
-   GPTBot, ClaudeBot, CCBot, PerplexityBot y Google-Extended se lee de `robots.txt`;
-   la respuesta real se mide una sola vez, con el UA propio.
+   (`MarIA-GEO-Audit/x.y (+https://maria.ar/bot)`) y headers de request completos y
+   estándar (`Accept`, `Accept-Language` — negociación de contenido correcta, la
+   que manda cualquier navegador o `curl`; **no es evasión**: la identidad va
+   siempre en el `User-Agent`). Máximo 1 request concurrente por dominio, respeto
+   del `Crawl-delay`, sin autenticación, **sin resolver challenges, sin rotar IP ni
+   suplantar la firma TLS de un navegador**. No se suplanta el crawler de un
+   tercero: la política declarada para GPTBot, ClaudeBot, CCBot, PerplexityBot y
+   Google-Extended se lee de `robots.txt`; la respuesta real se mide una sola vez,
+   con el UA propio. Un 403/503 a ese request completo e identificado **es** el
+   hallazgo, no un obstáculo a esquivar.
+   (Enmienda 10-09-2026: `docs/decisiones/2026-09-10-headers-de-request.md`.)
 
 7. **Solo datos públicos.** No se almacenan datos personales, no se envían
    formularios, no se guardan cookies de sesión de terceros.

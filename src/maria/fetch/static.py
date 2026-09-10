@@ -1,8 +1,9 @@
 """Fetch estático del HTML servido, con caché de 24 h y UA propio.
 
-RF-01 (obtiene el HTML crudo), RF-04 (UA identificable, 1 request concurrente por
-dominio — el semáforo lo pone el batch, ver `maria.cli`), RF-05 (reutiliza caché
-< 24 h salvo `--no-cache`).
+RF-01 (obtiene el HTML crudo), RF-04 (UA identificable + headers de request
+estándar `Accept`/`Accept-Language`, 1 request concurrente por dominio — el
+semáforo lo pone el batch, ver `maria.cli`), RF-05 (reutiliza caché < 24 h salvo
+`--no-cache`).
 
 El estado (`bloqueado` / `inaccesible`) lo decide `classify_response()` a partir
 de lo que devuelve la red; el probe D2 y el orquestador lo consumen.
@@ -21,6 +22,21 @@ from urllib.parse import urljoin, urlparse
 import httpx
 
 UA_STRING = "MarIA-GEO-Audit/0.1 (+https://maria.ar/bot)"
+
+# Headers de negociación de contenido que manda cualquier cliente HTTP real
+# (navegador, curl, wget). Sin `Accept`/`Accept-Language` explícitos, algunos
+# CDN marcan el request como bot y devuelven 403 aunque el UA esté identificado
+# — un falso `bloqueado`. Mandarlos NO es evasión: la identidad va en el
+# `User-Agent`, no se resuelven challenges ni se rota IP.
+# Ver docs/decisiones/2026-09-10-headers-de-request.md (principio 6, RF-04).
+ACCEPT = "text/html,application/xhtml+xml,application/xml;q=0.9,text/plain;q=0.8,*/*;q=0.7"
+ACCEPT_LANGUAGE = "es,en;q=0.8"
+DEFAULT_HEADERS = {
+    "User-Agent": UA_STRING,
+    "Accept": ACCEPT,
+    "Accept-Language": ACCEPT_LANGUAGE,
+}
+
 CACHE_TTL_S = 24 * 3600
 DEFAULT_CACHE_DIR = Path("out/cache")
 
@@ -105,7 +121,8 @@ def fetch(
     t0 = time.perf_counter()
     try:
         with httpx.Client(
-            timeout=timeout, follow_redirects=True, headers={"User-Agent": ua}
+            timeout=timeout, follow_redirects=True,
+            headers={**DEFAULT_HEADERS, "User-Agent": ua},
         ) as client:
             resp = client.get(url)
         result = FetchResult(

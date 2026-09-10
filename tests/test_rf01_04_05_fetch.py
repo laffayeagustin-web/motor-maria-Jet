@@ -22,13 +22,48 @@ def test_rf01_rf04_fetch_usa_ua_propio(monkeypatch, tmp_path):
     seen = {}
 
     def fake_get(self, url):
-        seen["ua"] = self.headers.get("User-Agent")
+        seen["headers"] = dict(self.headers)
         return _FakeResp()
 
     monkeypatch.setattr(httpx.Client, "get", fake_get)
     r = fetchmod.fetch("https://e.com", cache_dir=tmp_path, no_cache=True)
     assert r.ok and r.status == 200
-    assert seen["ua"] == fetchmod.UA_STRING
+    assert seen["headers"].get("user-agent") == fetchmod.UA_STRING
+
+
+def test_rf04_manda_headers_de_request_estandar(monkeypatch, tmp_path):
+    """Enmienda 10-09-2026: Accept + Accept-Language (no evasión, negociación
+    de contenido). Sin ellos algunos CDN dan un falso 403."""
+    seen = {}
+
+    def fake_get(self, url):
+        seen["headers"] = dict(self.headers)
+        return _FakeResp()
+
+    monkeypatch.setattr(httpx.Client, "get", fake_get)
+    fetchmod.fetch("https://e.com", cache_dir=tmp_path, no_cache=True)
+    h = seen["headers"]
+    assert h.get("accept") == fetchmod.ACCEPT
+    assert h.get("accept-language") == fetchmod.ACCEPT_LANGUAGE
+    assert "text/html" in h.get("accept", "")
+
+    # fetch_text (robots.txt / sitemap) los manda también
+    seen.clear()
+    monkeypatch.setattr(httpx.Client, "get",
+                        lambda self, url: (seen.__setitem__("headers", dict(self.headers))
+                                           or _FakeResp(text="User-agent: *\n")))
+    fetchmod.fetch_text("https://e.com/robots.txt", cache_dir=tmp_path, no_cache=True)
+    assert seen["headers"].get("accept-language") == fetchmod.ACCEPT_LANGUAGE
+
+
+def test_rf04_ua_override_no_pisa_los_otros_headers(monkeypatch, tmp_path):
+    seen = {}
+    monkeypatch.setattr(httpx.Client, "get",
+                        lambda self, url: (seen.__setitem__("headers", dict(self.headers))
+                                           or _FakeResp()))
+    fetchmod.fetch("https://e.com", cache_dir=tmp_path, no_cache=True, ua="OtroUA/1.0")
+    assert seen["headers"].get("user-agent") == "OtroUA/1.0"
+    assert seen["headers"].get("accept") == fetchmod.ACCEPT
 
 
 def test_rf05_segunda_llamada_sale_de_cache(monkeypatch, tmp_path):
