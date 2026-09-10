@@ -69,8 +69,11 @@ entre ambos: `render_schema_version`.
 - **RF-13** — SI el único schema presente es boilerplate (`WebPage`/`WebSite`/
   `BreadcrumbList`) sin `Organization` con datos, ENTONCES D1 se limita a 10 puntos.
 - **RF-14** — EL SISTEMA calcula el total como suma ponderada de D1–D5 (core = 95)
-  más el bonus D6 (5), acotado a 100, y le asigna su tier
-  (`0–29 Invisible · 30–54 Parcial · 55–74 Emergente · 75–100 Líder GEO`).
+  más el bonus D6 (5), acotado a 100, y le asigna su **tier absoluto**
+  (`0–29 Invisible · 30–54 Parcial · 55–74 Emergente · 75–100 Líder GEO`). Ese tier
+  vive en el JSON y el Markdown por cuenta y lo consumen el histórico (RF-19) y el
+  funnel self-serve; **no se publica** en las páginas del panel sectorial
+  (`docs/decisiones/2026-09-09-tiers-no-publicados.md`).
 
 ### Salida
 
@@ -81,11 +84,21 @@ entre ambos: `render_schema_version`.
 - **RF-16** — CUANDO se solicita el informe de una cuenta, EL SISTEMA deriva un
   Markdown del JSON, **sin recalcular nada** (constitución, principio 8).
 - **RF-17** — CUANDO se audita un panel, EL SISTEMA emite una tabla comparativa
-  Markdown ordenada por puntaje, con columna de grupo (A/B/C) y de flujo operativo
-  (corporativo-industrial / turismo VIP / sanitario). Una cuenta que no es `medido`
-  nunca se promedia junto a las medidas sin decirlo en la misma línea.
+  Markdown ordenada por puntaje, con columna de grupo (A/B/C), de flujo operativo
+  (corporativo-industrial / turismo VIP / sanitario) y de **cuartil de ranking**
+  (RF-22). Es un entregable **interno** de prospección, no una página pública. Una
+  cuenta que no es `medido` nunca se promedia junto a las medidas sin decirlo en la
+  misma línea, y no recibe cuartil.
 - **RF-18** — EL SISTEMA reporta en sección aparte todos los sub-criterios
   `unverified` de la corrida.
+- **RF-22** — CUANDO emite la tabla comparativa de un panel, EL SISTEMA clasifica en
+  cuartiles a las cuentas `medido` y `unverified`: las ordena por puntaje descendente
+  con desempate por `codigo`, y la cuenta de posición *r* (1-indexado) sobre *n* cae
+  en el cuartil `floor((r-1)·4/n) + 1` — Q1 (cuarto superior) … Q4 (cuarto inferior).
+  El cuartil es **relativo al panel de esa corrida**: no entra en el JSON por cuenta
+  ni en el histórico, usa etiquetas neutras (`Q1`…`Q4`) y nunca los nombres de tier.
+  `bloqueado` / `inaccesible` / `no_aplica` quedan fuera del cálculo. *(Paneles chicos:
+  `docs/decisiones/2026-09-09-tiers-no-publicados.md` §Lo que queda abierto.)*
 
 ### Histórico y aporte humano
 
@@ -158,7 +171,10 @@ ya obtenidos; el no determinismo vive solo en la adquisición.
   frases_totales`, aunque hoy dé 10/10.
 - **RR-12** — EL SISTEMA asigna un tier propio del índice de respuestas
   (`Ausente` … `Referencia`; umbrales exactos en `contract.py`), **disjunto** de los
-  tiers del índice técnico (`Invisible`/`Parcial`/`Emergente`/`Líder GEO`).
+  tiers del índice técnico (`Invisible`/`Parcial`/`Emergente`/`Líder GEO`). Vive en
+  el JSON y el Markdown por marca; **no se publica** en la página del panel
+  (`docs/decisiones/2026-09-09-tiers-no-publicados.md`). La tabla comparativa de
+  panel usa el cuartil de ranking (RF-22).
 - **RR-13** — Dos corridas de `puntuar_panel` sobre las mismas capturas producen el
   mismo JSON byte a byte. El panel sale ordenado por ranking (puntaje desc., luego
   `codigo`).
@@ -180,7 +196,8 @@ ya obtenidos; el no determinismo vive solo en la adquisición.
   rompe** al consumidor original (`AuditRun` se sigue recuperando sin pasar modelo).
 - **RR-18** — La salida (JSON, Markdown de marca, tabla de panel) deriva del modelo
   puntuado y **no recalcula**: mutar el modelo después de renderizar no cambia el
-  Markdown ya emitido. La tabla separa las marcas `sin_cobertura`.
+  Markdown ya emitido. La tabla de panel (entregable **interno**) lleva el cuartil de
+  ranking (RF-22) en vez del tier absoluto, y separa las marcas `sin_cobertura`.
 
 ### Serie diaria, página y propuesta (rúbrica §7 bis)
 
@@ -196,9 +213,11 @@ ya obtenidos; el no determinismo vive solo en la adquisición.
 - **RR-22** — Cada punto de la serie lleva la **media móvil de 7 días** mirando solo
   hacia atrás; las corridas `sin_cobertura` (`None`) se saltean, no cuentan como 0.
 - **RR-23** — `build_pages` genera la página pública de Respuestas desde el
-  `report_dir`, sin recalcular. La página incluye el límite del informe (nombra
-  ChatGPT/Perplexity/etc. como superficies **no** medidas) y un movimiento menor a
-  ~5 pts entre días se muestra "dentro del ruido medido", no como flecha.
+  `report_dir`, sin recalcular. La página muestra puntaje y desglose por señal,
+  **sin etiqueta de tier** (`docs/decisiones/2026-09-09-tiers-no-publicados.md`).
+  Incluye el límite del informe (nombra ChatGPT/Perplexity/etc. como superficies
+  **no** medidas) y un movimiento menor a ~5 pts entre días se muestra "dentro del
+  ruido medido", no como flecha.
 - **RR-24** — `proponer` cuenta los dominios citados **por frase, no por
   repetición**, y excluye los dominios propios. Los códigos de marca generados no
   colisionan.

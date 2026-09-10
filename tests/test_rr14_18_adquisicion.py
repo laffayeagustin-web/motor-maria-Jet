@@ -230,6 +230,25 @@ def test_rr18_la_tabla_separa_las_marcas_sin_cobertura():
     assert "Gestair" in tabla
 
 
+def test_rr18_la_tabla_lleva_cuartil_no_tier_absoluto():
+    """RF-22: la tabla de panel usa el cuartil; el tier absoluto sigue en el JSON."""
+    from maria_answers.contract import Captura
+
+    marcas = [Marca(codigo="AAA", nombre="Alta", dominios=["a.com"]),
+              Marca(codigo="BBB", nombre="Baja", dominios=["b.com"])]
+    p = PanelRespuestas(industria="x", marcas=marcas,
+                        frases=[Frase(id="G1", tipo="general", texto="t")])
+    caps = [Captura(frase_id="G1", frase_texto="t",
+                    texto="Alta y Baja compiten. Alta lidera.",
+                    fuentes=[], busquedas=["q"])]
+    runs = puntuar_panel(p, caps)
+    tabla = panel_table(runs)
+    assert "cuartil" in tabla and "Q1" in tabla
+    assert "Ausente" not in tabla and "Referencia" not in tabla
+    # el tier absoluto no desaparece del contrato por marca
+    assert all("tier" in to_dict(r) for r in runs)
+
+
 # --------------------------------------------------------------------------- #
 # RR-19 · las repeticiones se agregan por frecuencia (enmienda §7 bis)
 # --------------------------------------------------------------------------- #

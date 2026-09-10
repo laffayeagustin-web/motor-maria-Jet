@@ -16,12 +16,8 @@ GRUPO_LABEL_ES = {
     "C": "Grupo C · referencia de mercado",
 }
 
-TIER_CLASS = {
-    "Consolidado": "tier-consolidado",
-    "Emergente": "tier-emergente",
-    "Parcial": "tier-parcial",
-    "Invisible": "tier-invisible",
-}
+# Los tiers no se publican en las páginas del panel: solo puntaje /100 + desglose
+# por dimensión (decisión 09-09-2026, docs/decisiones/2026-09-09-tiers-no-publicados.md).
 
 STATUS_LABEL = {
     "static": ("verificado (HTML crudo)", "st-ok"),
@@ -94,7 +90,7 @@ def build(cfg):
     def accordion(code, rank=None):
         d = reports[code]
         c = d["cuenta"]
-        estado, total, tier = d.get("estado"), d.get("puntaje_total"), d.get("tier")
+        estado, total = d.get("estado"), d.get("puntaje_total")
         st_label, st_cls = STATUS_LABEL.get(estado, (estado, ""))
         n_unv = len(d.get("unverified") or [])
 
@@ -106,7 +102,6 @@ def build(cfg):
         else:
             score_html = '<span class="acc-score muted">s/d</span>'
             bar = '<span class="bar"></span>'
-        tier_html = f'<span class="tier {TIER_CLASS.get(tier,"")}">{esc(tier)}</span>' if tier else ""
 
         body = []
         url = c.get("url")
@@ -141,7 +136,7 @@ def build(cfg):
         return f"""<details class="acc">
       <summary><span class="acc-top">{rank_badge}
           <span class="acc-name"><strong>{esc(c['nombre'])}</strong> <span class="code">{esc(code)}</span></span>
-          {tier_html}{score_html}<span class="chev" aria-hidden="true">›</span></span>{bar}
+          {score_html}<span class="chev" aria-hidden="true">›</span></span>{bar}
       </summary>
       <div class="acc-body">{''.join(body)}</div>
     </details>"""
@@ -155,8 +150,7 @@ def build(cfg):
                 f'<span class="code">{esc(code)}</span></td><td>{esc(c["grupo"])}</td>'
                 f'<td>{g("D1")}</td><td>{g("D2")}</td><td>{g("D3")}</td><td>{g("D4")}</td>'
                 f'<td>{g("D5")}</td><td>{g("D6")}</td>'
-                f'<td class="tot" style="color:{score_color(total/100)}"><strong>{total:g}</strong></td>'
-                f'<td><span class="tier {TIER_CLASS.get(d["tier"],"")}">{esc(d["tier"])}</span></td></tr>')
+                f'<td class="tot" style="color:{score_color(total/100)}"><strong>{total:g}</strong></td></tr>')
 
     scores = [reports[c]["puntaje_total"] for c in ranked]
     prom = sum(scores) / len(scores)
@@ -248,12 +242,6 @@ table.rank td.tot {{ font-size:1rem; }}
 table.rank tr:last-child td {{ border-bottom:none; }}
 .code {{ display:inline-block; font-size:0.68rem; font-weight:600; color:#5F6368; background:var(--g-gray); border:1px solid var(--border); padding:1px 6px; border-radius:6px; vertical-align:middle; }}
 
-.tier {{ display:inline-block; font-size:0.72rem; font-weight:600; padding:3px 9px; border-radius:999px; white-space:nowrap; }}
-.tier-consolidado {{ background:#E6F4EA; color:#137333; }}
-.tier-emergente {{ background:#E8F0FE; color:#1A73E8; }}
-.tier-parcial {{ background:#FEF7E0; color:#B06000; }}
-.tier-invisible {{ background:#FCE8E6; color:#C5221F; }}
-
 .acc {{ background:var(--white); border:1px solid var(--border); border-radius:16px; margin-bottom:12px; box-shadow:0 4px 14px rgba(0,0,0,0.04); overflow:hidden; }}
 .acc[open] {{ box-shadow:0 8px 26px rgba(0,0,0,0.09); }}
 .acc summary {{ list-style:none; cursor:pointer; padding:16px 18px; display:block; }}
@@ -342,7 +330,7 @@ footer a {{ font-weight:600; }}
   <h2 class="sec">Ranking</h2>
   <p class="sec-note">Puntaje total sobre 100 = suma de las 6 dimensiones (core 95 + D6 5). D1 Estructura semántica (25) · D2 Accesibilidad crawlers IA (20) · D3 Legibilidad sin JS (20) · D4 Divulgación y confianza (15) · D5 Captura de leads (15) · D6 Frontera MCP (5).</p>
   <div class="table-wrap"><table class="rank">
-    <thead><tr><th>#</th><th class="tl">Cuenta</th><th>Gr.</th><th>D1</th><th>D2</th><th>D3</th><th>D4</th><th>D5</th><th>D6</th><th>/100</th><th>Tier</th></tr></thead>
+    <thead><tr><th>#</th><th class="tl">Cuenta</th><th>Gr.</th><th>D1</th><th>D2</th><th>D3</th><th>D4</th><th>D5</th><th>D6</th><th>/100</th></tr></thead>
     <tbody>{rank_rows}</tbody>
   </table></div>
 
@@ -352,7 +340,7 @@ footer a {{ font-weight:600; }}
 {out_section}
 
   <footer>
-    <p><strong>Metodología.</strong> Motor <code>Jet MarIA</code> — herramienta <code>maria</code> (fetch estático + robots.txt + 6 probes + scoring determinista + tiers). Rúbrica congelada en <code>docs/decisiones/2026-09-01-rubrica.md</code>. Los sub-criterios que dependen del DOM renderizado (JSON-LD post-JS, ratio de texto útil, formularios, <code>navigator.modelContext</code>) requieren la fase <code>maria-render</code> con navegador, no incluida en esta corrida.</p>
+    <p><strong>Metodología.</strong> Motor <code>Jet MarIA</code> — herramienta <code>maria</code> (fetch estático + robots.txt + 6 probes + scoring determinista). Rúbrica congelada en <code>docs/decisiones/2026-09-01-rubrica.md</code>. Cada cuenta se puntúa contra esa rúbrica publicada, en la fecha indicada; el índice mide la legibilidad automática del sitio, no la calidad, la seguridad ni la operación de la empresa. Los sub-criterios que dependen del DOM renderizado (JSON-LD post-JS, ratio de texto útil, formularios, <code>navigator.modelContext</code>) requieren la fase <code>maria-render</code> con navegador, no incluida en esta corrida.</p>
     <p>Generado el {datetime.date.today().isoformat()} · <a href="https://maria.ar">maria.ar</a></p>
   </footer>
 </div>
@@ -368,12 +356,8 @@ footer a {{ font-weight:600; }}
 #  Índice de Visibilidad en Respuestas de IA  (tercer panel)
 # ============================================================================ #
 
-RESP_TIER_CLASS = {
-    "Referencia": "tier-consolidado",
-    "Presente": "tier-emergente",
-    "Marginal": "tier-parcial",
-    "Ausente": "tier-invisible",
-}
+# Sin etiqueta de tier en la página pública (decisión 09-09-2026): puntaje /100 +
+# desglose por señal. docs/decisiones/2026-09-09-tiers-no-publicados.md.
 
 
 def _sparkline(serie, w=132, h=30):
@@ -455,7 +439,7 @@ def build_respuestas(cfg):
     def accordion(code, rank=None):
         d = reports[code]
         c = d["cuenta"]
-        total, tier = d.get("puntaje_total"), d.get("tier")
+        total = d.get("puntaje_total")
         mm = d.get("media_movil_7d")
         serie = d.get("serie") or []
         rank_badge = (f'<span class="rank">#{rank}</span>' if rank
@@ -469,8 +453,6 @@ def build_respuestas(cfg):
         else:
             score_html = '<span class="acc-score muted">s/cob.</span>'
             bar = '<span class="bar"></span>'
-        tier_html = (f'<span class="tier {RESP_TIER_CLASS.get(tier,"")}">{esc(tier)}</span>'
-                     if tier else "")
 
         body = []
         doms = ", ".join(c.get("dominios") or [])
@@ -508,7 +490,7 @@ def build_respuestas(cfg):
         return f"""<details class="acc">
       <summary><span class="acc-top">{rank_badge}
           <span class="acc-name"><strong>{esc(c['nombre'])}</strong> <span class="code">{esc(code)}</span></span>
-          {tier_html}{score_html}<span class="chev" aria-hidden="true">›</span></span>{bar}
+          {score_html}<span class="chev" aria-hidden="true">›</span></span>{bar}
       </summary>
       <div class="acc-body">{''.join(body)}</div>
     </details>"""
@@ -526,8 +508,7 @@ def build_respuestas(cfg):
                 f'<td class="tot" style="color:{score_color(total/100)}"><strong>{total:g}</strong></td>'
                 f'<td>{f"{mm:g}" if mm is not None else "—"}</td>'
                 f'<td>{_delta_badge(d.get("delta"))}</td>'
-                f'<td>{esc(d.get("cobertura","—"))}</td>'
-                f'<td><span class="tier {RESP_TIER_CLASS.get(d["tier"],"")}">{esc(d["tier"])}</span></td></tr>')
+                f'<td>{esc(d.get("cobertura","—"))}</td></tr>')
 
     scores = [reports[c]["puntaje_total"] for c in medidas]
     prom = sum(scores) / len(scores) if scores else 0
@@ -621,11 +602,6 @@ table.rank td.tl {{ text-align:left; }}
 table.rank td.tot {{ font-size:1rem; }}
 table.rank tr:last-child td {{ border-bottom:none; }}
 .code {{ display:inline-block; font-size:0.68rem; font-weight:600; color:#5F6368; background:var(--g-gray); border:1px solid var(--border); padding:1px 6px; border-radius:6px; vertical-align:middle; }}
-.tier {{ display:inline-block; font-size:0.72rem; font-weight:600; padding:3px 9px; border-radius:999px; white-space:nowrap; }}
-.tier-consolidado {{ background:#E6F4EA; color:#137333; }}
-.tier-emergente {{ background:#E8F0FE; color:#1A73E8; }}
-.tier-parcial {{ background:#FEF7E0; color:#B06000; }}
-.tier-invisible {{ background:#FCE8E6; color:#C5221F; }}
 .delta {{ font-size:0.78rem; font-weight:700; white-space:nowrap; }}
 .delta-up {{ color:#137333; }}
 .delta-down {{ color:#C5221F; }}
@@ -717,7 +693,7 @@ footer a {{ font-weight:600; }}
   <h2 class="sec">Ranking del día</h2>
   <p class="sec-note">R1 mención (0–40) · R2 cita con enlace al dominio propio (0–40) · R3 posición de la primera mención (0–20). Total sobre 100, normalizado a las frases con búsqueda. <strong>MM7</strong> = media móvil de 7 corridas. <strong>Δ</strong> = cambio contra la corrida anterior (gris si está dentro del ruido).</p>
   <div class="table-wrap"><table class="rank">
-    <thead><tr><th>#</th><th class="tl">Marca</th><th>R1</th><th>R2</th><th>R3</th><th>/100</th><th>MM7</th><th>Δ</th><th>cobertura</th><th>Tier</th></tr></thead>
+    <thead><tr><th>#</th><th class="tl">Marca</th><th>R1</th><th>R2</th><th>R3</th><th>/100</th><th>MM7</th><th>Δ</th><th>cobertura</th></tr></thead>
     <tbody>{rank_rows}</tbody>
   </table></div>
 
@@ -734,7 +710,7 @@ footer a {{ font-weight:600; }}
   </div>
 
   <footer>
-    <p><strong>Metodología.</strong> Motor <code>Jet MarIA</code> — herramienta <code>maria-respuestas</code>. Adquisición no determinista (Gemini <code>generateContent</code> + <code>google_search</code>, <code>temperature:0</code>) que guarda cada respuesta verbatim como evidencia; scoring determinista y sin red sobre esas capturas (dos corridas sobre la misma captura dan el mismo JSON). Competidores y frases congelados en <code>panels/respuestas-*.yaml</code>. La serie diaria se archiva en <code>out/runs-respuestas/&lt;marca&gt;/&lt;ts&gt;.json</code>.</p>
+    <p><strong>Metodología.</strong> Motor <code>Jet MarIA</code> — herramienta <code>maria-respuestas</code>. Adquisición no determinista (Gemini <code>generateContent</code> + <code>google_search</code>, <code>temperature:0</code>) que guarda cada respuesta verbatim como evidencia; scoring determinista y sin red sobre esas capturas (dos corridas sobre la misma captura dan el mismo JSON). Competidores y frases congelados en <code>panels/respuestas-*.yaml</code>. La serie diaria se archiva en <code>out/runs-respuestas/&lt;marca&gt;/&lt;ts&gt;.json</code>. El índice mide la presencia de cada marca en las respuestas de Gemini para estas frases y en esta fecha, no la calidad, la seguridad ni la operación de ninguna empresa.</p>
     <p>Generado el {datetime.date.today().isoformat()} · <a href="https://maria.ar">maria.ar</a></p>
   </footer>
 </div>

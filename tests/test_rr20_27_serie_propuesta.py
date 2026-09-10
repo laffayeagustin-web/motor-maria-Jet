@@ -141,7 +141,8 @@ def test_rr23_pagina_respuestas_sale_del_report_dir(tmp_path):
                              title="T", h1="H", meta_desc="d",
                              industria="aviación ejecutiva"))
     html = out.read_text("utf-8")
-    assert "Gestair" in html and "Presente" in html
+    assert "Gestair" in html
+    assert "Presente" not in html     # el tier no se publica (decisión 09-09-2026)
     assert "62.5" in html
     assert "ChatGPT" in html          # el límite del informe está en la página
     # Δ de 3 pts está dentro del ruido (§7 bis): se muestra en gris, no como flecha.

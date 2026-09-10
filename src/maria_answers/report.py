@@ -7,6 +7,8 @@ from __future__ import annotations
 
 import json
 
+from maria.scoring.tiers import cuartiles_panel
+
 from .contract import Captura, MarcaRun, PanelRespuestas
 
 
@@ -63,24 +65,32 @@ def marca_report(run: MarcaRun) -> str:
 
 
 def panel_table(runs: list[MarcaRun]) -> str:
-    """Tabla comparativa del panel. Las marcas sin cobertura van aparte."""
+    """Tabla comparativa del panel — **entregable interno de prospección**.
+
+    Lleva el cuartil de ranking (RF-22), no el tier absoluto: ese sigue en el JSON
+    y el Markdown por marca, pero no acá ni en la página pública
+    (`docs/decisiones/2026-09-09-tiers-no-publicados.md`). Las marcas sin cobertura
+    van aparte y sin cuartil.
+    """
     medidas = [r for r in runs if r.puntaje_total is not None]
     sin_cob = [r for r in runs if r.puntaje_total is None]
+    cuartil = cuartiles_panel([(r.cuenta.codigo, r.puntaje_total) for r in medidas])
 
     out = ["# Panel de Respuestas — tabla comparativa", ""]
     if medidas:
         sup, mod = medidas[0].superficie, medidas[0].modelo
         out.append(f"_Superficie: {sup} · modelo `{mod}`. "
-                   f"Puntaje sobre 100, normalizado a las frases con búsqueda._")
+                   f"Puntaje sobre 100, normalizado a las frases con búsqueda. "
+                   f"Uso interno: el cuartil es la posición en este panel._")
         out.append("")
-    out.append("| # | marca | R1 mención | R2 cita | R3 posición | /100 | cobertura | tier |")
+    out.append("| # | marca | R1 mención | R2 cita | R3 posición | /100 | cobertura | cuartil |")
     out.append("|---|---|---:|---:|---:|---:|---|---|")
     for i, r in enumerate(medidas, 1):
         dims = {x.id: x for x in r.dimensiones}
         out.append(
             f"| {i} | {r.cuenta.nombre} ({r.cuenta.codigo}) "
             f"| {dims['R1'].puntos:g} | {dims['R2'].puntos:g} | {dims['R3'].puntos:g} "
-            f"| {r.puntaje_total:g} | {r.cobertura} | {r.tier} |"
+            f"| {r.puntaje_total:g} | {r.cobertura} | {cuartil.get(r.cuenta.codigo, '')} |"
         )
 
     if sin_cob:

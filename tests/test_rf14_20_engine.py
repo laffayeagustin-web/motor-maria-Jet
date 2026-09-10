@@ -5,7 +5,7 @@ from maria_common.models import (
     Account, AuditRun, DimensionResult, Evidence, Finding, SubCriterion,
 )
 from maria.report import json_out, markdown, panel_table
-from maria.scoring.tiers import tier_for
+from maria.scoring.tiers import cuartiles_panel, tier_for
 from maria.store import runs as runstore
 
 
@@ -120,6 +120,35 @@ def test_rf17_panel_table_ordena_y_separa_no_medidos():
     hi_idx, lo_idx = table.index("HI"), table.index("LO")
     assert hi_idx < lo_idx
     assert "Fuera del ranking" in table and "INA" in table.split("Fuera del ranking")[1]
+    # la tabla comparativa lleva cuartil, no el tier absoluto (decisión 09-09-2026)
+    assert "cuartil" in table and "Q1" in table
+    assert "Invisible" not in table and "Líder GEO" not in table
+
+
+# ---- RF-22 · cuartiles de ranking del panel ----
+
+def test_rf22_cuartiles_reparte_por_posicion():
+    # 10 cuentas, puntajes distintos → Q1×3, Q2×2, Q3×3, Q4×2
+    items = [(f"C{i}", float(100 - i * 5)) for i in range(10)]
+    q = cuartiles_panel(items)
+    from collections import Counter
+    assert Counter(q.values()) == {"Q1": 3, "Q2": 2, "Q3": 3, "Q4": 2}
+    assert q["C0"] == "Q1"   # el mejor
+    assert q["C9"] == "Q4"   # el peor
+
+
+def test_rf22_orden_por_puntaje_desc_desempate_por_clave():
+    q = cuartiles_panel([("b", 50.0), ("a", 50.0), ("z", 90.0), ("y", 10.0)])
+    assert q == {"z": "Q1", "a": "Q2", "b": "Q3", "y": "Q4"}
+
+
+def test_rf22_panel_vacio():
+    assert cuartiles_panel([]) == {}
+
+
+def test_rf22_no_entra_en_el_json_por_cuenta():
+    d = json_out.to_dict(_run())
+    assert "cuartil" not in d and "Q1" not in json_out.to_json(_run())
 
 
 # ---- RF-20 · hallazgos del analista no cambian el puntaje ----

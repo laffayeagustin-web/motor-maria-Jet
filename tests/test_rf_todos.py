@@ -26,6 +26,7 @@ RF_A_TEST = {
     "RF-18": "test_rf18",
     "RF-19": "test_rf19",
     "RF-20": "test_rf20",
+    "RF-22": "test_rf22",
 }
 
 

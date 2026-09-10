@@ -143,9 +143,13 @@ El sub-criterio de compromiso publicado es el que conecta el Índice con el Paso
 
 ### Tiers
 
-`0–29 Invisible` · `30–54 Parcial` · `55–74 Emergente` · `75–100 Líder GEO`
+**Enmendado el 09-09-2026** — `docs/decisiones/2026-09-09-tiers-no-publicados.md`.
 
-**Criterio de calibración (test de aceptación global) — PENDIENTE DE REESCRITURA (ver §9.5):** la versión rev. 4 original pedía reproducir el orden de las 7 cuentas de Fase 2 y ubicar a HeliAir Marbella y Modena Air Service en los extremos. Con la calibración acotada a Argentina (§9.5), HeliAir Marbella queda fuera del set golden — no es una cuenta del panel AR. Modena Air Service sí sigue siendo válida como referencia (está en el panel AR, fila 3 de "Objetivos"). El criterio final (qué dos cuentas del panel AR deben quedar en los extremos, y con qué desvío máximo) se fija durante T0, una vez que el scoring manual del panel AR esté completo — no se puede fijar antes sin datos.
+- **Tier absoluto por cuenta** (`0–29 Invisible` · `30–54 Parcial` · `55–74 Emergente` · `75–100 Líder GEO`, sobre el core): se calcula, vive en el JSON y el Markdown por cuenta, lo usan el histórico (RF-19, "caída de tier") y el funnel self-serve. **No se publica** en las páginas del panel sectorial.
+- **Cuartil de ranking del panel** (Q1 cuarto superior … Q4 cuarto inferior, RF-22): relativo a las cuentas `medido`/`unverified` de la corrida. Va solo en la tabla comparativa Markdown, que es un **entregable interno** de prospección.
+- **Páginas públicas del panel**: puntaje /100 + desglose por dimensión + evidencia + hallazgos. Ninguna etiqueta de tier ni de cuartil.
+
+**Criterio de calibración (test de aceptación global):** es sobre el **puntaje**, no sobre la etiqueta — el scoring del motor reproduce el scoring manual del panel AR con desvío ≤ 8 pts (finalización §5 de `spec.md`), con los extremos del panel AR fijados en T0. La redacción rev. 4 (reproducir el orden de Fase 2, HeliAir Marbella y Modena en los extremos) queda superada: la calibración está acotada a Argentina (§9.5) y se evalúa por distancia de puntaje celda por celda, no por tier.
 
 ---
 
