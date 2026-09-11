@@ -112,3 +112,12 @@ con request estándar».
 | `tests/test_rf01_04_05_fetch.py` | El request lleva `Accept` y `Accept-Language`; `ua=` sigue overrideando el UA. |
 | Funnel (`~/indice-de-posicionamiento-en-la-IA`) | Re-sync de `static.py`; copia del estado `bloqueado` sin overclaim. Ver `~/DECISIONES.md`. |
 | Paneles sectoriales | Modena y otros marcados `bloqueado`/`inaccesible` por esto podrían reclasificarse — rebuild aparte, con OK. |
+
+**Re-corrida (10-09-2026):** `maria panel panels/panel-ar.yaml --no-cache` y
+`panel-es.yaml --no-cache`. **Tenil Aviación (TEN)** reclasificó de `inaccesible` a
+medible — mismo perfil de request pelado que animalcargo, ahora entra al ranking
+(Q4). **Modena Air Service (MOD)** y **AeroAffaires (AEA)** siguen `bloqueado`
+(403): confirmado que es un bloqueo real (IP-reputation o challenge), no el
+problema de headers — el escenario "descartado" de más arriba. **Aviones Privados
+SA (AVP)** sigue `inaccesible` (TLS inválido, sin relación). Falta el rebuild de
+`public_html/` — pendiente de OK (ver `~/DECISIONES.md` §9).
