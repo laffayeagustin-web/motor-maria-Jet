@@ -48,7 +48,7 @@ def run(ctx: ProbeContext) -> DimensionResult:
         for sid, nombre in [
             ("D1.2", "Organization/LocalBusiness con name + url"),
             ("D1.3", "address + telephone dentro del schema"),
-            ("D1.4", "Service/Offer/Product describiendo el chárter"),
+            ("D1.4", "Service/Offer/Product describiendo lo que ofrecés"),
             ("D1.5", "sameAs + logo + aggregateRating"),
         ]:
             subs.append(unverified(sid, nombre, 5, RENDER_MISSING))
@@ -81,7 +81,7 @@ def run(ctx: ProbeContext) -> DimensionResult:
                        status="rendered"))
 
     charter = sorted(all_types(ren_nodes) & CHARTER_TYPES)
-    subs.append(scored("D1.4", "Service / Offer / Product describiendo el chárter", 5,
+    subs.append(scored("D1.4", "Service / Offer / Product describiendo lo que ofrecés", 5,
                        5 if charter else 0,
                        [ev_rendered(f"tipos presentes: {charter or 'ninguno'}")],
                        status="rendered"))
