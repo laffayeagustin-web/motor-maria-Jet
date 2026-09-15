@@ -35,6 +35,26 @@ def score_color(pct):
     if pct >= 0.20: return "#F29900"
     return "var(--g-red)"
 
+# Bloque de derecho a réplica (docs/outbound-mitigaciones.md del repo
+# maria-agentes, mitigación 2) — dependencia dura antes del primer envío
+# real del Agente Outbound (~/DECISIONES.md §15). Solo en los paneles AR
+# (indice-GEO-tecnico/, indice-respuestas-ia-ar/): son los únicos que el
+# Outbound contacta hoy — los de España quedan fuera de este alcance.
+def _replica_html(cfg):
+    email = cfg.get("replica_email")
+    if not email:
+        return ""
+    return (
+        f'<p><strong>Derecho a réplica y re-medición.</strong> Este índice mide la '
+        f'legibilidad automática de sitios web públicos en la fecha indicada, con la '
+        f'rúbrica publicada arriba. No evalúa la calidad, la seguridad ni la operación '
+        f'de ninguna empresa. Si administrás uno de los sitios listados y encontrás un '
+        f'error de medición, o corregiste alguno de los puntos señalados, escribinos a '
+        f'<a href="mailto:{esc(email)}">{esc(email)}</a> y volvemos a medir sin costo. '
+        f'Respondemos en 48 horas hábiles. Tu descargo se publica junto a tu fila si lo '
+        f'pedís.</p>'
+    )
+
 
 def build(cfg):
     reports = {}
@@ -341,6 +361,7 @@ footer a {{ font-weight:600; }}
 
   <footer>
     <p><strong>Metodología.</strong> Motor <code>Jet MarIA</code> — herramienta <code>maria</code> (fetch estático + robots.txt + 6 probes + scoring determinista). Rúbrica congelada en <code>docs/decisiones/2026-09-01-rubrica.md</code>. Cada cuenta se puntúa contra esa rúbrica publicada, en la fecha indicada; el índice mide la legibilidad automática del sitio, no la calidad, la seguridad ni la operación de la empresa. Los sub-criterios que dependen del DOM renderizado (JSON-LD post-JS, ratio de texto útil, formularios, <code>navigator.modelContext</code>) requieren la fase <code>maria-render</code> con navegador, no incluida en esta corrida.</p>
+    {_replica_html(cfg)}
     <p>Generado el {datetime.date.today().isoformat()} · <a href="https://maria.ar">maria.ar</a></p>
   </footer>
 </div>
@@ -711,6 +732,7 @@ footer a {{ font-weight:600; }}
 
   <footer>
     <p><strong>Metodología.</strong> Motor <code>Jet MarIA</code> — herramienta <code>maria-respuestas</code>. Adquisición no determinista (Gemini <code>generateContent</code> + <code>google_search</code>, <code>temperature:0</code>) que guarda cada respuesta verbatim como evidencia; scoring determinista y sin red sobre esas capturas (dos corridas sobre la misma captura dan el mismo JSON). Competidores y frases congelados en <code>panels/respuestas-*.yaml</code>. La serie diaria se archiva en <code>out/runs-respuestas/&lt;marca&gt;/&lt;ts&gt;.json</code>. El índice mide la presencia de cada marca en las respuestas de Gemini para estas frases y en esta fecha, no la calidad, la seguridad ni la operación de ninguna empresa.</p>
+    {_replica_html(cfg)}
     <p>Generado el {datetime.date.today().isoformat()} · <a href="https://maria.ar">maria.ar</a></p>
   </footer>
 </div>
@@ -734,6 +756,7 @@ PANELS = {
         grupo_label=GRUPO_LABEL_AR,
         disclaimer_extra=" Modena y Aviones Privados no pudieron medirse por bloqueo o error de servidor.",
         out_note="No pudieron puntuarse: bloqueo del servidor, error técnico o sin sitio propio.",
+        replica_email="hola@maria.ar",
     ),
     "es": dict(
         slug="es",
@@ -767,6 +790,7 @@ RESP_PANELS = {
         h1="Índice de Visibilidad<br>en Respuestas de IA · AR",
         meta_desc="Serie: menciones y citas de cada marca de aviación privada argentina en las respuestas de Gemini con búsqueda de Google.",
         industria="aviación privada (mercado Argentina)",
+        replica_email="hola@maria.ar",
     ),
 }
 
