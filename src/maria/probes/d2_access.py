@@ -14,6 +14,7 @@ from ..fetch.robots import (
     parse_content_signals,
     parse_robots,
     sitemap_referenciado,
+    D2_LIVE_CRAWLERS,
     SENALES_QUE_BLOQUEAN,
 )
 from ._base import ProbeContext, dimension, ev_robots, ev_static, scored
@@ -44,6 +45,19 @@ def run(ctx: ProbeContext) -> tuple[DimensionResult, list[Finding]]:
             findings.append(Finding(severidad="informativa", dimension="D2",
                                     detalle="robots.txt presente pero sin ninguna directiva ni Content Signal: "
                                             "no declara política (cláusula (c) de Content Signals)."))
+
+        # RF-23: informativo aparte, no afecta el puntaje de D2.1 (que es solo
+        # entrenamiento/índice). OAI-SearchBot/ChatGPT-User/Claude-User/
+        # Perplexity-User son "fetch en vivo" — lo que importa para aparecer
+        # en una respuesta ahora, no para el entrenamiento futuro de un modelo.
+        bloqueados_live = blocked_ai_crawlers(groups, crawlers=D2_LIVE_CRAWLERS)
+        if bloqueados_live:
+            findings.append(Finding(severidad="informativa", dimension="D2",
+                                    detalle=f"robots.txt bloquea bots de búsqueda/uso en vivo: {', '.join(bloqueados_live)}"))
+        else:
+            findings.append(Finding(severidad="informativa", dimension="D2",
+                                    detalle="robots.txt no bloquea bots de búsqueda/uso en vivo: "
+                                            "OAI-SearchBot, ChatGPT-User, Claude-User, Perplexity-User"))
 
     # --- D2.2 acceso para clientes no-navegador (7 pts) ---
     if ctx.estado_fetch in ("bloqueado", "inaccesible"):

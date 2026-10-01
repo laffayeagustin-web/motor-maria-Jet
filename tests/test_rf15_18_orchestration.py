@@ -96,3 +96,71 @@ def test_rf17_panel_table_desde_audit_panel(patched_net):
 
     table = panel_table(runs)
     assert "Fuera del ranking" in table and "Baires Fly" in table
+
+
+# ---- RF-24 · fallback www./sin-www. cuando el DNS no resuelve -------------
+
+def _dns_fail(url):
+    return FetchResult(url=url, ok=False, estado="inaccesible",
+                       motivo="el DNS no resuelve", error="fetch crudo: dns fail")
+
+
+def test_rf24_dns_no_resuelve_reintenta_con_www(monkeypatch):
+    llamadas = []
+
+    def fake_fetch(url, **kw):
+        llamadas.append(url)
+        if url.rstrip("/") == "https://e.com":
+            return _dns_fail(url)
+        return FetchResult(url=url, ok=True, status=200, final_url=url, body=HTML_OK,
+                           headers={"content-type": "text/html"})
+
+    monkeypatch.setattr(auditmod.fetchmod, "fetch", fake_fetch)
+    monkeypatch.setattr(auditmod.fetchmod, "fetch_text", lambda url, **kw: None)
+
+    run = auditmod.audit_account(Account(codigo="E", nombre="E", url="https://e.com"))
+    assert run.estado != "inaccesible"
+    assert "https://e.com" in llamadas and "https://www.e.com" in llamadas
+    swap = [h for h in run.hallazgos if "no resuelve por DNS" in h.detalle]
+    assert len(swap) == 1
+    assert "www.e.com" in swap[0].detalle and swap[0].severidad == "informativa"
+
+
+def test_rf24_www_no_resuelve_reintenta_sin_www(monkeypatch):
+    def fake_fetch(url, **kw):
+        if url.rstrip("/") == "https://www.e.com":
+            return _dns_fail(url)
+        return FetchResult(url=url, ok=True, status=200, final_url=url, body=HTML_OK,
+                           headers={"content-type": "text/html"})
+
+    monkeypatch.setattr(auditmod.fetchmod, "fetch", fake_fetch)
+    monkeypatch.setattr(auditmod.fetchmod, "fetch_text", lambda url, **kw: None)
+
+    run = auditmod.audit_account(Account(codigo="E", nombre="E", url="https://www.e.com"))
+    assert run.estado != "inaccesible"
+    swap = [h for h in run.hallazgos if "no resuelve por DNS" in h.detalle]
+    assert len(swap) == 1 and "se usó https://e.com" in swap[0].detalle
+
+
+def test_rf24_dns_no_resuelve_en_ambas_variantes_no_esconde_el_error(monkeypatch):
+    monkeypatch.setattr(auditmod.fetchmod, "fetch", lambda url, **kw: _dns_fail(url))
+    monkeypatch.setattr(auditmod.fetchmod, "fetch_text", lambda url, **kw: None)
+
+    run = auditmod.audit_account(Account(codigo="E", nombre="E", url="https://e.com"))
+    assert run.estado == "inaccesible" and run.motivo == "el DNS no resuelve"
+    assert not any("no resuelve por DNS; se usó" in h.detalle for h in run.hallazgos)
+
+
+def test_rf24_bloqueado_no_reintenta(monkeypatch):
+    llamadas = []
+
+    def fake_fetch(url, **kw):
+        llamadas.append(url)
+        return FetchResult(url=url, ok=True, status=403, final_url=url, body="",
+                           estado="bloqueado", motivo="403 al UA propio")
+
+    monkeypatch.setattr(auditmod.fetchmod, "fetch", fake_fetch)
+    monkeypatch.setattr(auditmod.fetchmod, "fetch_text", lambda url, **kw: None)
+
+    auditmod.audit_account(Account(codigo="E", nombre="E", url="https://e.com"))
+    assert llamadas.count("https://e.com") == 1   # sin segundo intento

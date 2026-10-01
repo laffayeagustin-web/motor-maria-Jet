@@ -47,7 +47,11 @@ def test_rf07_d2_robots_abierto_puntua_pleno():
     robots = "User-agent: *\nDisallow:\nSitemap: https://e.com/sitemap.xml\n"
     dim, findings = d2_access.run(make_ctx(robots_txt=robots, sitemap_ok=True))
     assert dim.puntos == 20
-    assert findings == []
+    # RF-23: único finding es el informativo de "no bloquea bots de búsqueda/uso
+    # en vivo" (no hay Disallow para nadie) — nada crítico/alto en un robots.txt
+    # totalmente abierto.
+    assert [f.severidad for f in findings] == ["informativa"]
+    assert "no bloquea bots de búsqueda/uso en vivo" in findings[0].detalle
 
 
 def test_rf07_d2_robots_bloquea_gptbot():

@@ -55,6 +55,21 @@ entre ambos: `render_schema_version`.
   ejecuta más de una petición concurrente contra el mismo dominio.
 - **RF-05** — MIENTRAS exista una respuesta cacheada de menos de 24 h para una URL,
   EL SISTEMA la reutiliza, salvo `--no-cache` explícito.
+- **RF-24** — SI el fetch al `Account.url` da `inaccesible` con motivo
+  exactamente "el DNS no resuelve", ENTONCES EL SISTEMA reintenta **una sola
+  vez** con la variante complementaria del mismo host (agrega o saca
+  `www.`), misma identidad (UA, headers) — `audit.py::_variante_www`. SI esa
+  variante no es también `inaccesible`, se usa para el resto de la auditoría
+  (`robots.txt`, sitemap, footer, probes) y se agrega un hallazgo informativo
+  documentando el swap. NO aplica a `bloqueado` (403/503) ni a otros motivos
+  de `inaccesible` (TLS, redirects) — es un caso puntual de configuración
+  DNS/hosting común (apex sin registro A, todo servido en `www.` vía CDN), no
+  una forma general de eludir errores de fetch. No es una excepción al
+  principio 6 (RF-03): es la misma identidad, la otra variante de host que
+  cualquier visitante hubiera tipeado. Origen: caso real `bellmuntgolf.com`
+  (30-09-2026, `~/DECISIONES.md` §22) — el apex genuinamente no tiene
+  registro A/AAAA (verificado contra `8.8.8.8`/`1.1.1.1`), el sitio vive
+  entero en `www.` (CNAME a CloudFront), y Google lo indexa sin problema.
 
 ### Evaluación
 
@@ -102,6 +117,20 @@ entre ambos: `render_schema_version`.
   ni en el histórico, usa etiquetas neutras (`Q1`…`Q4`) y nunca los nombres de tier.
   `bloqueado` / `inaccesible` / `no_aplica` quedan fuera del cálculo. *(Paneles chicos:
   `docs/decisiones/2026-09-09-tiers-no-publicados.md` §Lo que queda abierto.)*
+- **RF-23** — CUANDO se evalúa D2 y `robots.txt` se pudo leer, EL SISTEMA emite,
+  además del puntaje de D2.1 (solo GPTBot/ClaudeBot/CCBot/PerplexityBot/
+  Google-Extended — entrenamiento/índice), un hallazgo **informativo** aparte
+  indicando si `robots.txt` bloquea o no a los bots de "fetch en vivo"/búsqueda
+  (OAI-SearchBot, ChatGPT-User, Claude-User, Perplexity-User). No afecta el
+  puntaje de D2.1 ni introduce ningún request nuevo — usa el mismo `robots.txt`
+  ya descargado para RF-03. Origen: review externo de una auditoría real
+  (`bikeexplorer.bike`, 29-09-2026) que señaló que un `robots.txt` bloqueando
+  solo a los bots de entrenamiento no dice nada sobre si los agentes de
+  búsqueda/respuesta en vivo pueden leer el sitio *ahora*. Se evaluó y **se
+  descartó** confirmar esto enviando un request con el user-agent literal de
+  esos bots — sería suplantar a OpenAI/Anthropic/Perplexity ante el sitio
+  auditado, la misma pregunta ya resuelta para `animalcargo.com`
+  (`docs/decisiones/2026-09-10-headers-de-request.md`, principio 6).
 
 ### Histórico y aporte humano
 

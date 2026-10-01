@@ -30,6 +30,11 @@ AI_CRAWLERS = {
 # Los cinco que la rúbrica D2.1 exige que no estén bloqueados.
 D2_CORE_CRAWLERS = ["GPTBot", "ClaudeBot", "CCBot", "PerplexityBot", "Google-Extended"]
 
+# Bots de "fetch en vivo"/búsqueda (RF-23): no puntúan D2.1 (eso es solo
+# entrenamiento/índice), se reportan aparte como hallazgo informativo. Anthropic
+# no tiene un "Claude-SearchBot" separado de Claude-User.
+D2_LIVE_CRAWLERS = ["OAI-SearchBot", "ChatGPT-User", "Claude-User", "Perplexity-User"]
+
 CONTENT_SIGNAL_RE = re.compile(r"content-signal\s*:\s*(.+)", re.I)
 SIGNAL_PAIR_RE = re.compile(r"([a-z-]+)\s*=\s*(yes|no)", re.I)
 SENALES_QUE_BLOQUEAN = ("ai-train", "ai-input")
@@ -90,10 +95,13 @@ def crawler_verdict(groups: dict, ua: str, path: str = "/") -> dict:
     return {**best, "group": source}
 
 
-def blocked_ai_crawlers(groups: dict, path: str = "/") -> list[str]:
-    """De los cinco crawlers núcleo de D2.1, cuáles quedan con Disallow."""
+def blocked_ai_crawlers(
+    groups: dict, path: str = "/", crawlers: list[str] = D2_CORE_CRAWLERS
+) -> list[str]:
+    """De `crawlers` (default: los cinco núcleo de D2.1), cuáles quedan con
+    Disallow. RF-23 reusa esto con `crawlers=D2_LIVE_CRAWLERS`."""
     return sorted(
-        c for c in D2_CORE_CRAWLERS if not crawler_verdict(groups, c, path)["allowed"]
+        c for c in crawlers if not crawler_verdict(groups, c, path)["allowed"]
     )
 
 

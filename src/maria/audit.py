@@ -32,6 +32,20 @@ COMMON_FOOTER_ROUTES = [
 WELL_KNOWN = ["/.well-known/ai-plugin.json", "/.well-known/mcp.json", "/.well-known/agent.json"]
 
 
+def _variante_www(url: str) -> str | None:
+    """La otra forma del mismo host: agrega o saca `www.`. `None` si no hay
+    host que parsear. RF-24: usada solo como fallback de un DNS que no
+    resuelve — misma identidad (UA/headers), la misma URL que cualquier
+    visitante hubiera tipeado con o sin el prefijo. No es una excepción al
+    principio 6 (sin suplantación): es una variante de host, no de identidad.
+    """
+    p = urlparse(url)
+    if not p.netloc:
+        return None
+    nuevo = p.netloc[4:] if p.netloc.startswith("www.") else "www." + p.netloc
+    return p._replace(netloc=nuevo).geturl()
+
+
 def audit_account(
     account: Account,
     *,
@@ -49,6 +63,23 @@ def audit_account(
 
     url = account.url
     fr = fetchmod.fetch(url, cache_dir=cache_dir, no_cache=no_cache)
+
+    # RF-24: un DNS que no resuelve suele ser un apex sin registro A con todo
+    # servido en `www.` vía CDN (o al revés) — configuración común, no un
+    # error del sitio. Un solo reintento con la otra variante del mismo host,
+    # misma identidad, antes de darlo por inaccesible.
+    swap_finding: Optional[Finding] = None
+    if fr.estado == "inaccesible" and fr.motivo == "el DNS no resuelve":
+        alt_url = _variante_www(url)
+        if alt_url:
+            fr_alt = fetchmod.fetch(alt_url, cache_dir=cache_dir, no_cache=no_cache)
+            if fr_alt.estado != "inaccesible":
+                swap_finding = Finding(
+                    severidad="informativa", dimension="D2",
+                    detalle=f"{url} no resuelve por DNS; se usó {alt_url} en su lugar "
+                            "(misma identidad, sin cambios de UA/IP).")
+                url, fr = alt_url, fr_alt
+
     origin = fetchmod.origin_of(fr.final_url or url)
 
     robots_txt = fetchmod.fetch_text(fetchmod.robots_url(url), cache_dir=cache_dir, no_cache=no_cache)
@@ -98,7 +129,7 @@ def audit_account(
         # solo D2 es medible; el resto no hay contenido que puntuar
         d2, f2 = d2_access.run(ctx)
         run.dimensiones = [d2]
-        run.hallazgos = f2
+        run.hallazgos = ([swap_finding] if swap_finding else []) + list(f2)
         return run
 
     d1 = d1_schema.run(ctx)
@@ -108,7 +139,7 @@ def audit_account(
     d5 = d5_leads.run(ctx)
     d6 = d6_frontier.run(ctx)
     run.dimensiones = [d1, d2, d3, d4, d5, d6]
-    run.hallazgos = list(f2)
+    run.hallazgos = ([swap_finding] if swap_finding else []) + list(f2)
     run.anomalias = anomalias
     return run
 
